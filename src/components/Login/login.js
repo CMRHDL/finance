@@ -6,25 +6,22 @@ import axios from 'axios';
 import Snackbar from 'material-ui/Snackbar';
 import get from 'lodash/get';
 import { browserHistory } from 'react-router';
-
-const paper = {
-  height: 275,
-  width: 300,
-  marginTop: 100,
-  textAlign: 'center',
-  display: 'inline-block',
-};
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 const center = {
   display: 'flex',
   justifyContent: 'center',
+  marginTop: 100,
 };
 
-const top = {
-  marginTop: 25,
+const innerCenter = {
+  padding: 10,
+  width: 'auto',
+  position: 'relative',
+  textAlign: 'center',
 };
 
-const style = { paper, center, top }
+const style = { center, innerCenter }
 let username, password
 
 const LoginComponent = ({ login, loginError, updateLoginError }) => {
@@ -41,35 +38,75 @@ const LoginComponent = ({ login, loginError, updateLoginError }) => {
 
   return (
     <div style={style.center} >
-      <Paper style={style.paper} zDepth={1} children={
-        <div style={style.top}>
+      <Paper  zDepth={1} children={
+        <div >
 
-          <TextField
-            floatingLabelText="Username"
-            onChange={({ target: { value } }) => {
-              username = value
-            }}
-          /><br />
-          <br />
+          <Tabs>
+            <Tab label="Login" >
+              <div style={style.innerCenter} >
 
-          <TextField
-            floatingLabelText="Password"
-            type="password"
-            onChange={({ target: { value } }) => {
-              password = value
-            }}
-          /><br />
-          <br />
+                <TextField
+                  floatingLabelText="Username"
+                  onChange={({ target: { value } }) => {
+                    username = value
+                  }}
+                /><br />
+                <br />
 
-          <FlatButton
-            label="Login"
-            primary={true}
-            onTouchTap={() => {
-              axios.post('/api/session', { username, password })
-                .then(handleLogin)
-                .catch(handleLoginError);
-            }}
-          />
+                <TextField
+                  floatingLabelText="Password"
+                  type="password"
+                  onChange={({ target: { value } }) => {
+                    password = value
+                  }}
+                /><br />
+                <br />
+
+                <FlatButton
+                  label="Login"
+                  primary={true}
+                  onTouchTap={() => {
+                    axios.post('/api/session', { username, password })
+                      .then(handleLogin)
+                      .catch(handleLoginError);
+                  }}
+                />
+
+              </div>
+            </Tab>
+            <Tab label="Register" >
+              <div style={style.innerCenter} >
+
+                <TextField
+                  floatingLabelText="Username"
+                  onChange={({ target: { value } }) => {
+                    username = value
+                  }}
+                /><br />
+                <br />
+
+                <TextField
+                  floatingLabelText="Password"
+                  type="password"
+                  onChange={({ target: { value } }) => {
+                    password = value
+                  }}
+                /><br />
+                <br />
+
+                <FlatButton
+                  label="Register"
+                  primary={true}
+                  onTouchTap={() => {
+                    axios.post('/api/account', { username, password })
+                      .then(handleLogin)
+                      .catch(handleLoginError);
+                  }}
+                />
+
+              </div>
+            </Tab>
+          </Tabs>
 
           <Snackbar
             open={!!loginError}
