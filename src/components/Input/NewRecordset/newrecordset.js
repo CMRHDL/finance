@@ -58,7 +58,7 @@ let NewRecordset = () => {
         <div style={style.child} >
           <TextField
             type="number"
-            hintText="Betrag"
+            floatingLabelText="Betrag"
           />
         </div>
         <RadioButtonGroup name="typeOfRecordset" defaultSelected="income">
