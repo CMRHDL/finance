@@ -1,5 +1,5 @@
 import React from 'react'
-import {Tabs, Tab} from 'material-ui/Tabs';
+import { Tabs, Tab } from 'material-ui/Tabs'
 import Attribution from './Attribution'
 
 let Settings = () => {

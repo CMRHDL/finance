@@ -7,7 +7,7 @@ import RecordsetList from './RecordsetList'
 const style = {
   padding: {
     padding: 25,
-  }
+  },
 }
 
 let Input = () => {

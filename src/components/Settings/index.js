@@ -1,17 +1,12 @@
 import SettingsComponent from './settings'
 
-import { } from '../../actions'
+import '../../actions'
 import { connect } from 'react-redux'
 
-const mapStateToProps = (state, ownProps) => ({
-})
+const mapStateToProps = (state, ownProps) => ({})
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
-const Settings = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsComponent)
+const Settings = connect(mapStateToProps, mapDispatchToProps)(SettingsComponent)
 
 export default Settings

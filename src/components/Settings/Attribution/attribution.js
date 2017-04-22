@@ -1,9 +1,9 @@
 import React from 'react'
-import Chip from 'material-ui/Chip';
-import {green400, red400} from 'material-ui/styles/colors';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
+import Chip from 'material-ui/Chip'
+import { green400, red400 } from 'material-ui/styles/colors'
+import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton'
 
 const style = {
   padding: {
@@ -35,15 +35,22 @@ const listAttributions = (attributions, isIncome) => {
   return (
     <Paper
       style={{ ...style.padding, ...style.wide }}
-      children={attributions.map((e, i) => (<Chip backgroundColor={color} key={i}>{e}</Chip>))}
+      children={attributions.map((e, i) => <Chip backgroundColor={color} key={i}>{e}</Chip>)}
     />
   )
 }
 
-const listIncome = (attributions) => listAttributions(attributions, true)
-const listExpense = (attributions) => listAttributions(attributions, false)
+const listIncome = attributions => listAttributions(attributions, true)
+const listExpense = attributions => listAttributions(attributions, false)
 
-let Attribution = ({ attributionInput, attributionIncome, attributionExpense, updateSettingsAttributionInput, addSettingsAttributionIncome, addSettingsAttributionExpense }) => {
+let Attribution = ({
+  addSettingsAttributionExpense,
+  addSettingsAttributionIncome,
+  attributionExpense,
+  attributionIncome,
+  attributionInput,
+  updateSettingsAttributionInput,
+}) => {
   return (
     <div style={style.padding}>
       <div style={style.container}>
@@ -52,9 +59,17 @@ let Attribution = ({ attributionInput, attributionIncome, attributionExpense, up
           onChange={updateSettingsAttributionInput}
           floatingLabelText="Zuordnung hinzufügen"
         />
-        <FlatButton label="Einnahme" style={style.big} onTouchTap={addSettingsAttributionIncome.bind(null, attributionInput)} />
-        <FlatButton label="Ausgabe" style={style.big} onTouchTap={addSettingsAttributionExpense.bind(null, attributionInput)} />
-      </div><br/><br/>
+        <FlatButton
+          label="Einnahme"
+          style={style.big}
+          onTouchTap={addSettingsAttributionIncome.bind(null, attributionInput)}
+        />
+        <FlatButton
+          label="Ausgabe"
+          style={style.big}
+          onTouchTap={addSettingsAttributionExpense.bind(null, attributionInput)}
+        />
+      </div><br /><br />
       <div style={{ ...style.container, ...style.margin }}>
         {listIncome(attributionIncome)}
         {listExpense(attributionExpense)}

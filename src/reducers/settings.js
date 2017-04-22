@@ -1,4 +1,4 @@
-const settings = (state = { attributionInput: '', attributionIncome: [ 'Miete' ], attributionExpense: [ 'Stife' ] }, action) => {
+const settings = (state = { attributionInput: '', attributionIncome: [ 'Miete' ], attributionExpense: [ 'Stifte' ] }, action) => {
   switch (action.type) {
     case 'UPDATE_SETTINGS_ATTRIBUTION_INPUT':
       return ({

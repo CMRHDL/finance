@@ -1,32 +1,40 @@
-export const login = () => ({
-  type: 'LOGIN',
-})
+import { simpleFieldsPrefix } from '../reducers/simpleFields'
 
-export const logout = () => ({
-  type: 'LOGOUT',
-})
+const makeActionCreator = (type, ...argNames) => (...args) => {
+  let action = { type }
+  argNames.forEach((arg, index) => {
+    action[argNames[index]] = args[index]
+  })
+  return action
+}
 
-export const updateLoginError = (message) => ({
-  type: 'UPDATE_LOGIN_ERROR',
-  message
-})
+export const login = makeActionCreator('LOGIN')
+export const logout = makeActionCreator('LOGOUT')
+export const updateCode = makeActionCreator('UPDATE_CODE', 'code')
+export const updateCodePosition = makeActionCreator('UPDATE_CODE_POSITION')
+export const updateSettingsAttributionInput = makeActionCreator('UPDATE_SETTINGS_ATTRIBUTION_INPUT', 'value')
+export const addSettingsAttributionIncome = makeActionCreator('ADD_SETTINGS_ATTRIBUTION_INCOME', 'value')
+export const addSettingsAttributionExpense = makeActionCreator('ADD_SETTINGS_ATTRIBUTION_EXPENSE', 'value')
 
-export const updateCode = (code) => ({
-  type: 'UPDATE_CODE',
-  code
-})
+export const updateNewRecordset = prop => {
+  const update = {
+    date: makeActionCreator('UPDATE_NEWRECORDSET_DATE', 'value'),
+    description: makeActionCreator('UPDATE_NEWRECORDSET_DESCRIPTION', 'value'),
+    amount: makeActionCreator('UPDATE_NEWRECORDSET_AMOUNT', 'value'),
+    attribution: makeActionCreator('UPDATE_NEWRECORDSET_ATTRIBUTION', 'value', 'isIncome'),
+    reset: makeActionCreator('RESET_NEWRECORDSET'),
+  }
 
-export const updateSettingsAttributionInput = (value) => ({
-  type: 'UPDATE_SETTINGS_ATTRIBUTION_INPUT',
-  value
-})
+  return update[prop]
+}
 
-export const addSettingsAttributionIncome = (value) => ({
-  type: 'ADD_SETTINGS_ATTRIBUTION_INCOME',
-  value
-})
+export const updateAddedRecordset = prop => {
+  const update = {
+    add: makeActionCreator('ADD_ADDEDRECORDSET', 'value'),
+    remove: makeActionCreator('REMOVE_ADDEDRECORDSET', 'value'),
+  }
 
-export const addSettingsAttributionExpense = (value) => ({
-  type: 'ADD_SETTINGS_ATTRIBUTION_EXPENSE',
-  value
-})
+  return update[prop]
+}
+
+export const actionForSimpleField = field => makeActionCreator(simpleFieldsPrefix + field.toUpperCase(), 'value')

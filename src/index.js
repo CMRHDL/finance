@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Routes from './routes';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Routes from './routes'
+import moment from 'moment'
 
-import './index.css';
+moment.locale('de')
 
-ReactDOM.render(
-  <Routes />,
-  document.getElementById('root')
-);
+import './index.css'
+
+ReactDOM.render(<Routes />, document.getElementById('root'))

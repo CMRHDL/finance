@@ -1,6 +1,10 @@
 import AttributionComponent from './attribution'
 
-import { updateSettingsAttributionInput, addSettingsAttributionIncome, addSettingsAttributionExpense } from '../../../actions'
+import {
+  updateSettingsAttributionInput,
+  addSettingsAttributionIncome,
+  addSettingsAttributionExpense,
+} from '../../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -10,7 +14,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSettingsAttributionInput({ target: { value }}) {
+  updateSettingsAttributionInput({ target: { value } }) {
     dispatch(updateSettingsAttributionInput(value))
   },
   addSettingsAttributionIncome(value) {
@@ -20,12 +24,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   addSettingsAttributionExpense(value) {
     dispatch(updateSettingsAttributionInput(''))
     dispatch(addSettingsAttributionExpense(value))
-  }
+  },
 })
 
-const Attribution = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AttributionComponent)
+const Attribution = connect(mapStateToProps, mapDispatchToProps)(AttributionComponent)
 
 export default Attribution
