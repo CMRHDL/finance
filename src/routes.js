@@ -19,6 +19,9 @@ const NotFound = () => <h1>404.. This page is not found!</h1>
 import reducers from './reducers'
 const store = createStore(reducers)
 
+import { init } from './init'
+init(store)
+
 const verifyLogin = () => {
   // if (!store.getState().login) {
   //   browserHistory.push('/login');

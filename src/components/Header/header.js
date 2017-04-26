@@ -1,26 +1,33 @@
 import React from 'react'
-import {Tabs, Tab} from 'material-ui/Tabs';
-import Home from 'material-ui/svg-icons/action/home';
-import Details from 'material-ui/svg-icons/action/trending-up';
-import Overview from 'material-ui/svg-icons/av/playlist-add-check';
-import Input from 'material-ui/svg-icons/content/create';
-import Settings from 'material-ui/svg-icons/action/build';
+import { Tabs, Tab } from 'material-ui/Tabs'
+import Home from 'material-ui/svg-icons/action/home'
+import Details from 'material-ui/svg-icons/action/trending-up'
+import Overview from 'material-ui/svg-icons/av/playlist-add-check'
+import Input from 'material-ui/svg-icons/content/create'
+import Settings from 'material-ui/svg-icons/action/build'
+import findIndex from 'lodash/findIndex'
 
-import { browserHistory } from 'react-router';
+import { browserHistory } from 'react-router'
 
-const route = (newLocation) => {
+import { bind } from '../../util'
+
+const route = newLocation => {
   browserHistory.push(`/${newLocation}`)
 }
 
-let Header = (props) => {
+const Header = props => {
+  const routes = [
+    { icon: <Home />, url: 'home' },
+    { icon: <Input />, url: 'home/input' },
+    { icon: <Overview />, url: 'home/overview' },
+    { icon: <Details />, url: 'home/details' },
+    { icon: <Settings />, url: 'home/settings' },
+  ]
+  const initialSelectedIndex = findIndex(routes, ({ url }) => props.location.pathname === '/' + url)
   return (
     <div>
-      <Tabs>
-        <Tab icon={<Home />} onActive={route.bind(null, 'home')} />
-        <Tab icon={<Input />} onActive={route.bind(null, 'home/input')} />
-        <Tab icon={<Overview />} onActive={route.bind(null, 'home/overview')} />
-        <Tab icon={<Details />} onActive={route.bind(null, 'home/details')} />
-        <Tab icon={<Settings />} onActive={route.bind(null, 'home/settings')} />
+      <Tabs initialSelectedIndex={initialSelectedIndex}>
+        {routes.map(({ icon, url }, i) => <Tab key={i} icon={icon} onActive={bind(route, url)} />)}
       </Tabs>
       {props.children}
     </div>

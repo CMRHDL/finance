@@ -57,4 +57,9 @@ app.use((err, req, res, next) => {
   res.status(500).send(err)
 })
 
+// Always return the main index.html, so react-router render the route in the client
+// app.route('/*').get((req, res) => {
+//   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+// });
+
 module.exports = app

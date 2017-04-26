@@ -12,9 +12,6 @@ export const login = makeActionCreator('LOGIN')
 export const logout = makeActionCreator('LOGOUT')
 export const updateCode = makeActionCreator('UPDATE_CODE', 'code')
 export const updateCodePosition = makeActionCreator('UPDATE_CODE_POSITION')
-export const updateSettingsAttributionInput = makeActionCreator('UPDATE_SETTINGS_ATTRIBUTION_INPUT', 'value')
-export const addSettingsAttributionIncome = makeActionCreator('ADD_SETTINGS_ATTRIBUTION_INCOME', 'value')
-export const addSettingsAttributionExpense = makeActionCreator('ADD_SETTINGS_ATTRIBUTION_EXPENSE', 'value')
 
 export const updateNewRecordset = prop => {
   const update = {
@@ -28,13 +25,41 @@ export const updateNewRecordset = prop => {
   return update[prop]
 }
 
-export const updateAddedRecordset = prop => {
+export const addedRecordsetAction = prop => {
   const update = {
     add: makeActionCreator('ADD_ADDEDRECORDSET', 'value'),
     remove: makeActionCreator('REMOVE_ADDEDRECORDSET', 'value'),
+    reset: makeActionCreator('RESET_ADDEDRECORDSET'),
   }
 
   return update[prop]
 }
 
-export const actionForSimpleField = field => makeActionCreator(simpleFieldsPrefix + field.toUpperCase(), 'value')
+export const recordsetAction = prop => {
+  const update = {
+    add: makeActionCreator('ADD_RECORDSET', 'data'),
+  }
+
+  return update[prop]
+}
+
+export const settingsAction = prop => {
+  const update = {
+    ADD_ATTRIBUTION: makeActionCreator('ADD_ATTRIBUTION', 'attribution'),
+    SET_ATTRIBUTION: makeActionCreator('SET_ATTRIBUTION', 'attributions'),
+  }
+
+  return update[prop]
+}
+
+export const recordsetFilterAction = prop => {
+  const update = {
+    ADD_RECORDSET_FILTER: makeActionCreator('ADD_RECORDSET_FILTER', 'value'),
+    RESET_RECORDSET_FILTER: makeActionCreator('RESET_RECORDSET_FILTER'),
+    REMOVE_RECORDSET_FILTER: makeActionCreator('REMOVE_RECORDSET_FILTER', 'id'),
+  }
+
+  return update[prop]
+}
+
+export const updateSimpleField = field => makeActionCreator(simpleFieldsPrefix + field.toUpperCase(), 'value')

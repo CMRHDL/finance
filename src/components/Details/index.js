@@ -4,6 +4,7 @@ import { } from '../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
+  recordset: state.recordset
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

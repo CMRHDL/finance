@@ -5,7 +5,10 @@ import Attribution from './Attribution'
 let Settings = () => {
   return (
     <div>
-      <Tabs>
+      <Tabs style={{ padding: 25 }}>
+        <Tab label="Zuordnungen">
+          <Attribution />
+        </Tab>
         <Tab label="Zuordnungen">
           <Attribution />
         </Tab>

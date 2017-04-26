@@ -1,24 +1,12 @@
 import React from 'react'
-import Chip from 'material-ui/Chip'
-import { green400, red400 } from 'material-ui/styles/colors'
-import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
+import { bind } from '../../../util'
+import Snackbar from '../../Misc/Snackbar'
+import { saveAttribution } from './attribution.util'
+import { ListIncome, ListExpense } from './ListAttribution'
 
 const style = {
-  padding: {
-    padding: 50,
-  },
-  margin: {
-    margin: 50,
-  },
-  wide: {
-    width: 300,
-  },
-  wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -30,50 +18,49 @@ const style = {
   },
 }
 
-const listAttributions = (attributions, isIncome) => {
-  const color = isIncome ? green400 : red400
+const Attribution = props => {
+  const {
+    updateSimpleField,
+    addAttributionFailure,
+    attributionInput,
+    attributions,
+    updateAttributionInput,
+  } = props
   return (
-    <Paper
-      style={{ ...style.padding, ...style.wide }}
-      children={attributions.map((e, i) => <Chip backgroundColor={color} key={i}>{e}</Chip>)}
-    />
-  )
-}
-
-const listIncome = attributions => listAttributions(attributions, true)
-const listExpense = attributions => listAttributions(attributions, false)
-
-let Attribution = ({
-  addSettingsAttributionExpense,
-  addSettingsAttributionIncome,
-  attributionExpense,
-  attributionIncome,
-  attributionInput,
-  updateSettingsAttributionInput,
-}) => {
-  return (
-    <div style={style.padding}>
+    <div style={{ padding: 50 }}>
       <div style={style.container}>
         <TextField
           value={attributionInput}
-          onChange={updateSettingsAttributionInput}
+          onChange={({ target: { value } }) => updateAttributionInput(value)}
           floatingLabelText="Zuordnung hinzufügen"
         />
         <FlatButton
           label="Einnahme"
           style={style.big}
-          onTouchTap={addSettingsAttributionIncome.bind(null, attributionInput)}
+          onTouchTap={() => {
+            const isIncome = true
+            saveAttribution({ ...props, isIncome })
+          }}
         />
         <FlatButton
           label="Ausgabe"
           style={style.big}
-          onTouchTap={addSettingsAttributionExpense.bind(null, attributionInput)}
+          onTouchTap={() => {
+            const isIncome = false
+            saveAttribution({ ...props, isIncome })
+          }}
         />
       </div><br /><br />
-      <div style={{ ...style.container, ...style.margin }}>
-        {listIncome(attributionIncome)}
-        {listExpense(attributionExpense)}
+      <div style={{ ...style.container, margin: 50 }}>
+        <ListIncome attributions={attributions.filter(e => e.isIncome)} />
+        <ListExpense attributions={attributions.filter(e => !e.isIncome)} />
       </div>
+
+      <Snackbar
+        bodyStyle={{ background: 'orange' }}
+        message={addAttributionFailure}
+        updateMessage={bind(updateSimpleField, 'addAttributionFailure', '')}
+      />
     </div>
   )
 }

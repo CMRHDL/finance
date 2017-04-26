@@ -2,9 +2,9 @@ import React from 'react'
 import Snackbar from 'material-ui/Snackbar'
 import { bind } from '../../../util'
 
-const SnackbarComponent = ({ message, updateMessage }) => {
+const SnackbarComponent = ({ message, updateMessage, contentStyle, bodyStyle }) => {
   return (
-    <Snackbar open={!!message} message={message} autoHideDuration={4000} onRequestClose={bind(updateMessage, '')} />
+    <Snackbar contentStyle={{textAlign: 'center'}} bodyStyle={bodyStyle} open={!!message} message={message} autoHideDuration={5000000} onRequestClose={bind(updateMessage, '')} />
   )
 }
 

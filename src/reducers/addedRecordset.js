@@ -1,13 +1,5 @@
-import moment from 'moment'
-
 const addedRecordset = (
-  state = [{
-    amount: -5,
-    attribution: 'Miete',
-    date: moment().toDate(),
-    description: 'Miete Januar 2017',
-    isIncome: true,
-  }],
+  state = [],
   action
 ) => {
   switch (action.type) {
@@ -18,6 +10,8 @@ const addedRecordset = (
         ...state.slice(0, action.value),
         ...state.slice(action.value + 1),
       ]
+    case 'RESET_ADDEDRECORDSET':
+      return []
     default:
       return state
   }

@@ -1,12 +1,9 @@
-import moment from 'moment'
-
 const newRecordset = (
   state = {
-    amount: -5,
-    attribution: '',
-    date: moment().toDate(),
-    description: 'Miete Januar 2017',
-    isIncome: true,
+    amount: '',
+    attribution: null,
+    date: null,
+    description: '',
   },
   action
 ) => {
@@ -30,12 +27,11 @@ const newRecordset = (
       return {
         ...state,
         attribution: action.value,
-        isIncome: action.isIncome,
       }
     case 'RESET_NEWRECORDSET':
       return {
         ...state,
-        amount: 0,
+        amount: '',
         attribution: '',
         description: '',
         isIncome: true,

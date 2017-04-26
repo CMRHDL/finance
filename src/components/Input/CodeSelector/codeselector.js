@@ -54,8 +54,8 @@ let SubCode = (props) => {
   )
 }
 
-let CodeSelector = ({ code, updateCode }) => {
-  let props = { updateCode, code }
+const CodeSelector = ({ code, updateCode }) => {
+  const props = { code, updateCode }
   return (
     <div style={style.container} >
       <SubCode name="Jahr" prop="year" {...props} onIncrease={[ 'number', 'page', 'position' ]} />

@@ -1,23 +1,18 @@
-const settings = (state = { attributionInput: '', attributionIncome: [ 'Miete' ], attributionExpense: [ 'Stifte' ] }, action) => {
+const settings = (state = { attributions: [] }, action) => {
   switch (action.type) {
-    case 'UPDATE_SETTINGS_ATTRIBUTION_INPUT':
-      return ({
+    case "ADD_ATTRIBUTION":
+      return {
         ...state,
-        attributionInput: action.value
-      })
-    case 'ADD_SETTINGS_ATTRIBUTION_INCOME':
-      return ({
+        attributions: [...state.attributions, action.attribution]
+      };
+    case "SET_ATTRIBUTION":
+      return {
         ...state,
-        attributionIncome: [ ...state.attributionIncome, action.value ]
-      })
-    case 'ADD_SETTINGS_ATTRIBUTION_EXPENSE':
-      return ({
-        ...state,
-        attributionExpense: [ ...state.attributionExpense, action.value ]
-      })
+        attributions: action.attributions
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default settings
+export default settings;

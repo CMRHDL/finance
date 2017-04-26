@@ -1,6 +1,6 @@
 import LoginComponent from './login'
 
-import { login, actionForSimpleField } from '../../actions'
+import { login, updateSimpleField } from '../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -14,13 +14,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(login())
   },
   updateLoginError: value => {
-    dispatch(actionForSimpleField('loginError')(value))
+    dispatch(updateSimpleField('loginError')(value))
   },
   updateUsername: ({ target: { value } }) => {
-    dispatch(actionForSimpleField('username')(value))
+    dispatch(updateSimpleField('username')(value))
   },
   updatePassword: ({ target: { value } }) => {
-    dispatch(actionForSimpleField('password')(value))
+    dispatch(updateSimpleField('password')(value))
   },
 })
 

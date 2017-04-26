@@ -1,6 +1,18 @@
 const simpleFieldsPrefix = 'SIMPLEFIELDS_UPDATE_'
 
-const fields = [ 'username', 'password', 'loginError' ]
+const fields = [
+  'username',
+  'password',
+  'loginError',
+  'addedNewRecordsetSuccess',
+  'attributionInput',
+  'addAttributionFailure',
+  'openAttributionDialog',
+  'filterAmountMin',
+  'filterAmountMax',
+  'filterDescription',
+  'filterCode',
+]
 
 const initialState = fields.reduce((o, e) => {
   o[e] = ''
@@ -16,7 +28,4 @@ const simpleFields = (state = initialState, action) => {
   return cases[action.type] || state
 }
 
-export {
-  simpleFields,
-  simpleFieldsPrefix,
-}
+export { simpleFields, simpleFieldsPrefix }

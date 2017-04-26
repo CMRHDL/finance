@@ -1,32 +1,28 @@
 import AttributionComponent from './attribution'
 
-import {
-  updateSettingsAttributionInput,
-  addSettingsAttributionIncome,
-  addSettingsAttributionExpense,
-} from '../../../actions'
+import { settingsAction, updateSimpleField } from '../../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
-  attributionInput: state.settings.attributionInput,
-  attributionIncome: state.settings.attributionIncome,
-  attributionExpense: state.settings.attributionExpense,
+  attributions: state.settings.attributions,
+  attributionInput: state.simpleFields.attributionInput,
+  addAttributionFailure: state.simpleFields.addAttributionFailure,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateSettingsAttributionInput({ target: { value } }) {
-    dispatch(updateSettingsAttributionInput(value))
+  settingsAction(prop, ...args) {
+    dispatch(settingsAction(prop)(...args))
   },
-  addSettingsAttributionIncome(value) {
-    dispatch(updateSettingsAttributionInput(''))
-    dispatch(addSettingsAttributionIncome(value))
+  updateAttributionInput: value => {
+    dispatch(updateSimpleField('attributionInput')(value))
   },
-  addSettingsAttributionExpense(value) {
-    dispatch(updateSettingsAttributionInput(''))
-    dispatch(addSettingsAttributionExpense(value))
+  updateSimpleField(field, value) {
+    dispatch(updateSimpleField(field)(value))
   },
 })
 
-const Attribution = connect(mapStateToProps, mapDispatchToProps)(AttributionComponent)
+const Attribution = connect(mapStateToProps, mapDispatchToProps)(
+  AttributionComponent
+)
 
 export default Attribution
