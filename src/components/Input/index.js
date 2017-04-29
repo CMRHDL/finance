@@ -1,6 +1,10 @@
 import InputComponent from './input'
 
-import { addedRecordsetAction, recordsetAction, updateSimpleField } from '../../actions'
+import {
+  addedRecordsetAction,
+  recordsetAction,
+  updateSimpleField,
+} from '../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({

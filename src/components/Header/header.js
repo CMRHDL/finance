@@ -23,11 +23,16 @@ const Header = props => {
     { icon: <Details />, url: 'home/details' },
     { icon: <Settings />, url: 'home/settings' },
   ]
-  const initialSelectedIndex = findIndex(routes, ({ url }) => props.location.pathname === '/' + url)
+  const initialSelectedIndex = findIndex(
+    routes,
+    ({ url }) => props.location.pathname === '/' + url
+  )
   return (
     <div>
       <Tabs initialSelectedIndex={initialSelectedIndex}>
-        {routes.map(({ icon, url }, i) => <Tab key={i} icon={icon} onActive={bind(route, url)} />)}
+        {routes.map(({ icon, url }, i) => (
+          <Tab key={i} icon={icon} onActive={bind(route, url)} />
+        ))}
       </Tabs>
       {props.children}
     </div>

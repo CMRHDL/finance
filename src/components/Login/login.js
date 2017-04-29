@@ -51,7 +51,8 @@ const InputGroup = ({
         floatingLabelText="Username"
         onChange={updateUsername}
         value={username}
-      /><br />
+      />
+      <br />
       <br />
 
       <TextField
@@ -61,7 +62,10 @@ const InputGroup = ({
         value={password}
         onKeyDown={({ keyCode }) => {
           if (keyCode === 13) {
-            axios.post(url, { username, password }).then(handleLogin).catch(handleLoginError)
+            axios
+              .post(url, { username, password })
+              .then(handleLogin)
+              .catch(handleLoginError)
           }
         }}
       /><br />
@@ -71,7 +75,10 @@ const InputGroup = ({
         label={label}
         primary={true}
         onTouchTap={() => {
-          axios.post(url, { username, password }).then(handleLogin).catch(handleLoginError)
+          axios
+            .post(url, { username, password })
+            .then(handleLogin)
+            .catch(handleLoginError)
         }}
       />
 
@@ -94,7 +101,12 @@ const LoginComponent = props => {
                   document.getElementById('login').focus()
                 }}
               >
-                <InputGroup id="login" label="Login" url="/api/session" {...props} />
+                <InputGroup
+                  id="login"
+                  label="Login"
+                  url="/api/session"
+                  {...props}
+                />
               </Tab>
               <Tab
                 label="Register"
@@ -102,11 +114,19 @@ const LoginComponent = props => {
                   document.getElementById('register').focus()
                 }}
               >
-                <InputGroup id="register" label="Register" url="/api/account" {...props} />
+                <InputGroup
+                  id="register"
+                  label="Register"
+                  url="/api/account"
+                  {...props}
+                />
               </Tab>
             </Tabs>
 
-            <Snackbar message={props.loginError} updateMessage={props.updateLoginError} />
+            <Snackbar
+              message={props.loginError}
+              updateMessage={props.updateLoginError}
+            />
 
           </div>
         }

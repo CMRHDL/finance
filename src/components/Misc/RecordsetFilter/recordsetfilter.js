@@ -7,7 +7,11 @@ import { filters } from '../../../util/recordset.util'
 const props = [
   { label: 'Betrag von', field: 'filterAmountMin', filter: 'amountMin' },
   { label: 'Betrag bis', field: 'filterAmountMax', filter: 'amountMax' },
-  { label: 'Beschreibung beinhaltet', field: 'filterDescription', filter: 'description' },
+  {
+    label: 'Beschreibung beinhaltet',
+    field: 'filterDescription',
+    filter: 'description',
+  },
   { label: 'Code beinhaltet', field: 'filterCode', filter: 'code' },
 ]
 

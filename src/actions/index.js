@@ -18,7 +18,11 @@ export const updateNewRecordset = prop => {
     date: makeActionCreator('UPDATE_NEWRECORDSET_DATE', 'value'),
     description: makeActionCreator('UPDATE_NEWRECORDSET_DESCRIPTION', 'value'),
     amount: makeActionCreator('UPDATE_NEWRECORDSET_AMOUNT', 'value'),
-    attribution: makeActionCreator('UPDATE_NEWRECORDSET_ATTRIBUTION', 'value', 'isIncome'),
+    attribution: makeActionCreator(
+      'UPDATE_NEWRECORDSET_ATTRIBUTION',
+      'value',
+      'isIncome'
+    ),
     reset: makeActionCreator('RESET_NEWRECORDSET'),
   }
 
@@ -62,4 +66,5 @@ export const recordsetFilterAction = prop => {
   return update[prop]
 }
 
-export const updateSimpleField = field => makeActionCreator(simpleFieldsPrefix + field.toUpperCase(), 'value')
+export const updateSimpleField = field =>
+  makeActionCreator(simpleFieldsPrefix + field.toUpperCase(), 'value')

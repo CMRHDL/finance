@@ -44,7 +44,11 @@ export default class Routes extends Component {
       <MuiThemeProvider>
         <Provider store={store}>
           <Router history={browserHistory}>
-            <Route path="/login" component={Login} onEnter={this.redirectIfLoggedIn}>
+            <Route
+              path="/login"
+              component={Login}
+              onEnter={this.redirectIfLoggedIn}
+            >
               <Route path="*" component={NotFound} />
             </Route>
             <Route path="/home" component={Header} onEnter={verifyLogin}>
@@ -55,7 +59,11 @@ export default class Routes extends Component {
               <Route path="settings" component={Settings} />
               <Route path="*" component={NotFound} />
             </Route>
-            <Route path="*" component={Login} onEnter={this.redirectIfLoggedIn} />
+            <Route
+              path="*"
+              component={Login}
+              onEnter={this.redirectIfLoggedIn}
+            />
           </Router>
         </Provider>
       </MuiThemeProvider>

@@ -1,9 +1,10 @@
 import React from 'react'
-import IconButton from 'material-ui/IconButton';
-import Up from 'material-ui/svg-icons/navigation/arrow-drop-up';
-import Down from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import IconButton from 'material-ui/IconButton'
+import Up from 'material-ui/svg-icons/navigation/arrow-drop-up'
+import Down from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import Toggle from 'material-ui/Toggle'
 
-const style= {
+const style = {
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -16,52 +17,99 @@ const style= {
   },
 }
 
-let SubCode = (props) => {
+const SubCode = ({
+  name,
+  code,
+  prop,
+  onIncrease,
+  updateCode,
+  showUp,
+  showDown,
+}) => {
   return (
     <div style={style.child}>
-      {props.name}: {props.code[props.prop]}<br />
-      <IconButton
-        tooltip={`${props.name} erhöhen`}
-        onTouchTap={() => {
+      {name}: {code[prop]}<br />
+      {showUp &&
+        <IconButton
+          tooltip={`${name} erhöhen`}
+          onTouchTap={() => {
+            const newCode = onIncrease.reduce((o, e) => {
+              o[e] = 1
+              return o
+            }, {})
 
-          let newCode = props.onIncrease.reduce((o, e) => {
-            o[e] = 1
-            return o
-          }, {});
-
-          props.updateCode({
-            ...props.code,
-            ...newCode,
-            [props.prop]: props.code[props.prop] + 1,
-          })
-        }}
-      >
-        <Up />
-      </IconButton>
-      <IconButton
-        disabled={props.code[props.prop] === 0}
-        tooltip={`${props.name} verringern`}
-        onTouchTap={() => {
-          props.updateCode({
-            ...props.code,
-            [props.prop]: props.code[props.prop] - 1,
-          })
-        }}
-      >
-        <Down />
-      </IconButton>
+            updateCode({
+              ...code,
+              ...newCode,
+              [prop]: code[prop] + 1,
+            })
+          }}
+        >
+          <Up />
+        </IconButton>}
+      {showDown &&
+        <IconButton
+          disabled={code[prop] === 0}
+          tooltip={`${name} verringern`}
+          onTouchTap={() => {
+            updateCode({
+              ...code,
+              [prop]: code[prop] - 1,
+            })
+          }}
+        >
+          <Down />
+        </IconButton>}
     </div>
   )
 }
 
-const CodeSelector = ({ code, updateCode }) => {
-  const props = { code, updateCode }
+const CodeSelector = props => {
+  const { simpleFields, updateSimpleField } = props
   return (
-    <div style={style.container} >
-      <SubCode name="Jahr" prop="year" {...props} onIncrease={[ 'number', 'page', 'position' ]} />
-      <SubCode name="Beleg" prop="number" {...props} onIncrease={[ 'page', 'position' ]} />
-      <SubCode name="Seite" prop="page" {...props} onIncrease={[ 'position' ]} />
-      <SubCode name="Position" prop="position" {...props} onIncrease={[  ]} />
+    <div>
+      <Toggle
+        label="Sicheren Eingabemodus verwenden"
+        toggled={!!simpleFields.codeUseSaveMode}
+        onToggle={(o, useSaveMode) => {
+          updateSimpleField('codeUseSaveMode', useSaveMode)
+        }}
+        style={{ width: 350 }}
+      />
+      <div style={style.container}>
+        <SubCode
+          name="Jahr"
+          prop="year"
+          {...props}
+          onIncrease={['number', 'page', 'position']}
+          showUp={true}
+          showDown={true}
+        />
+        <SubCode
+          name="Beleg"
+          prop="number"
+          {...props}
+          onIncrease={['page', 'position']}
+          showUp={true}
+          showDown={!simpleFields.codeUseSaveMode}
+        />
+        <SubCode
+          name="Seite"
+          prop="page"
+          {...props}
+          onIncrease={['position']}
+          showUp={true}
+          showDown={!simpleFields.codeUseSaveMode}
+        />
+        <SubCode
+          name="Position"
+          prop="position"
+          {...props}
+          onIncrease={[]}
+          showUp={!simpleFields.codeUseSaveMode}
+          showDown={!simpleFields.codeUseSaveMode}
+        />
+      </div>
     </div>
   )
 }

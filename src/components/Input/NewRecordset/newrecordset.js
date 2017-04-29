@@ -19,11 +19,10 @@ const style = {
     justifyContent: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '50%',
+    width: '60%',
   },
   child: {
     flex: '1',
-    textAlign: 'center',
     display: 'inline-block',
   },
   childBig: {
@@ -70,12 +69,12 @@ const isComplete = ({ amount, attribution, date, description }) =>
   amount && attribution && date && description
 
 let NewRecordset = ({
-  code,
-  updateCodePosition,
-  attributions,
-  newRecordset,
-  updateNewRecordset,
   addedRecordsetAction,
+  attributions,
+  code,
+  newRecordset,
+  updateCodePosition,
+  updateNewRecordset,
   updateSimpleField,
 }) => {
   let { date, description, amount, attribution } = newRecordset
@@ -97,8 +96,9 @@ let NewRecordset = ({
           }}
         />
       </div>
-      <div style={style.childBig}>
+      <div style={style.child}>
         <RaisedButton
+          id="addRecordsetButton"
           backgroundColor={isComplete(newRecordset) ? lightGreen500 : ''}
           label="Übernehmen"
           labelPosition="before"
@@ -107,50 +107,59 @@ let NewRecordset = ({
           onTouchTap={() => {
             if (isComplete(newRecordset)) {
               updateCodePosition()
-              addedRecordsetAction('add', adjustamount({
-                ...newRecordset,
-                code: generateCode(code),
-              }))
+              addedRecordsetAction(
+                'add',
+                adjustamount({
+                  ...newRecordset,
+                  code: generateCode(code),
+                })
+              )
               updateNewRecordset('reset')
             }
           }}
-        />
+        /><br /><br />
         <TextField
           floatingLabelText="Beschreibung"
           value={description}
           onChange={({ target: { value } }) => {
             updateNewRecordset('description', value)
           }}
-        />
+        /><br /><br />
         <TextField
           floatingLabelText="Betrag"
           value={amount}
           onChange={({ target: { value } }) => {
             updateNewRecordset('amount', value)
           }}
-        />
-        <FlatButton
-          label="Zuordnung hinzufügen"
-          primary={true}
-          onTouchTap={bind(updateSimpleField, 'openAttributionDialog', 'open')}
-        />
-        <AutoComplete
-          floatingLabelText="Zuordnung"
-          filter={AutoComplete.fuzzyFilter}
-          dataSource={dataSource}
-          searchText={
-            attribution
-              ? attribution.attribution + suffix(attribution.isIncome)
-              : ''
-          }
-          openOnFocus={true}
-          onNewRequest={({ attribution }) => {
-            updateNewRecordset('attribution', attribution)
-          }}
-          onUpdateInput={value => {
-            value === '' && updateNewRecordset('attribution', null)
-          }}
-        />
+        /><br /><br />
+        <div>
+          <AutoComplete
+            floatingLabelText="Zuordnung"
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={dataSource}
+            searchText={
+              attribution
+                ? attribution.attribution + suffix(attribution.isIncome)
+                : ''
+            }
+            openOnFocus={true}
+            onNewRequest={({ attribution }) => {
+              updateNewRecordset('attribution', attribution)
+            }}
+            onUpdateInput={value => {
+              value === '' && updateNewRecordset('attribution', null)
+            }}
+          />
+          <FlatButton
+            label="+"
+            primary={true}
+            onTouchTap={bind(
+              updateSimpleField,
+              'openAttributionDialog',
+              'open'
+            )}
+          />
+        </div>
       </div>
     </div>
   )

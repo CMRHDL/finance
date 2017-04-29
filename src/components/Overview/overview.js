@@ -1,7 +1,8 @@
 import React from 'react'
 
-import RecordsetList from '../Misc/RecordsetList'
+import RecordsetExporter from '../Misc/RecordsetExporter'
 import RecordsetFilter from '../Misc/RecordsetFilter'
+import RecordsetList from '../Misc/RecordsetList'
 
 const style = {
   padding: {
@@ -13,6 +14,7 @@ const Overview = ({ recordset, recordsetAction, recordsetFilter }) => {
   return (
     <div style={style.padding}>
       <RecordsetFilter />
+      <RecordsetExporter />
       <RecordsetList
         recordset={recordset}
         recordsetAction={recordsetAction}

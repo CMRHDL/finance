@@ -1,7 +1,14 @@
+import orderBy from 'lodash/orderBy'
+import flow from 'lodash/flow'
+import get from 'lodash/get'
+import { shortDate, currency } from './index'
+import { recordsetColumns } from '../models'
+
 export const attributionId = recordset => ({
   ...recordset,
   attribution: recordset.attribution._id,
 })
+
 export const amount = recordset => {
   return {
     ...recordset,
@@ -13,27 +20,50 @@ export const amount = recordset => {
 
 export const filters = {
   amountMax: amountMax => ({
-    func: recordsetEntry => recordsetEntry.amount < amountMax,
+    func: recordset => recordset.filter(e => e.amount < amountMax),
     id: 'amountMax',
   }),
   amountMin: amountMin => ({
-    func: recordsetEntry => recordsetEntry.amount > amountMin,
+    func: recordset => recordset.filter(e => e.amount > amountMin),
     id: 'amountMin',
   }),
   // dateMin: dateMin => ({
-  //   func: recordsetEntry => recordsetEntry.date > dateMin,
+  //   func: recordset => recordset.filter(e => e.date > dateMin),
   //   id: 'dateMin',
   // }),
   // dateMax: dateMax => ({
-  //   func: recordsetEntry => recordsetEntry.date > dateMax,
+  //   func: recordset => recordset.filter(e => e.date > dateMax),
   //   id: 'dateMax',
   // }),
   description: description => ({
-    func: recordsetEntry => recordsetEntry.description.indexOf(description) > -1,
+    func: recordset =>
+      recordset.filter(e => e.description.indexOf(description) > -1),
     id: 'description',
   }),
   code: code => ({
-    func: recordsetEntry => (recordsetEntry.code + '').indexOf(code) > -1,
+    func: recordset => recordset.filter(e => (e.code + '').indexOf(code) > -1),
     id: 'code',
   }),
+}
+
+export const adjustRecordset = ({
+  recordset,
+  recordsetFilter = [],
+  recordsetOrderColumn: column,
+  recordsetOrderOrder: order,
+}) => {
+  return orderBy(
+    flow(recordsetFilter.map(e => e.func))(recordset),
+    [column],
+    [order]
+  )
+}
+
+export const buildCsv = recordset => {
+  const firstRow = recordsetColumns.map(e => `"${e.displayName}"`).join(',')
+  const _recordset = recordset.map(entry =>
+    recordsetColumns.map(e => `"${e.func(get(entry, e.prop))}"`).join(',')
+  )
+
+  return [firstRow, ..._recordset].join('\n')
 }

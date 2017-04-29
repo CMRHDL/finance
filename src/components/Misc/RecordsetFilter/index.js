@@ -16,6 +16,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 })
 
-const RecordsetFilter = connect(mapStateToProps, mapDispatchToProps)(RecordsetFilterComponent)
+const RecordsetFilter = connect(mapStateToProps, mapDispatchToProps)(
+  RecordsetFilterComponent
+)
 
 export default RecordsetFilter

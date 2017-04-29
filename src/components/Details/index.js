@@ -1,18 +1,14 @@
 import DetailsComponent from './details'
 
-import { } from '../../actions'
+import '../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
-  recordset: state.recordset
+  recordset: state.recordset,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
+const mapDispatchToProps = (dispatch, ownProps) => ({})
 
-const Details = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DetailsComponent)
+const Details = connect(mapStateToProps, mapDispatchToProps)(DetailsComponent)
 
 export default Details

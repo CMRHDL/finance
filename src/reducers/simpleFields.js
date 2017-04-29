@@ -1,17 +1,21 @@
 const simpleFieldsPrefix = 'SIMPLEFIELDS_UPDATE_'
 
 const fields = [
-  'username',
-  'password',
-  'loginError',
+  'addAttributionFailure',
   'addedNewRecordsetSuccess',
   'attributionInput',
-  'addAttributionFailure',
-  'openAttributionDialog',
-  'filterAmountMin',
+  'codeUseSaveMode',
   'filterAmountMax',
-  'filterDescription',
+  'filterAmountMin',
   'filterCode',
+  'filterDescription',
+  'loginError',
+  'openAttributionDialog',
+  'password',
+  'recordsetExportFilename',
+  'recordsetOrderColumn',
+  'recordsetOrderOrder',
+  'username',
 ]
 
 const initialState = fields.reduce((o, e) => {
