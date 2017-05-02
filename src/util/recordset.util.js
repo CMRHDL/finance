@@ -62,7 +62,7 @@ export const adjustRecordset = ({
 export const buildCsv = recordset => {
   const firstRow = recordsetColumns.map(e => `"${e.displayName}"`).join(',')
   const _recordset = recordset.map(entry =>
-    recordsetColumns.map(e => `"${e.func(get(entry, e.prop))}"`).join(',')
+    recordsetColumns.map(e => `"${e.display(get(entry, e.prop))}"`).join(',')
   )
 
   return [firstRow, ..._recordset].join('\n')

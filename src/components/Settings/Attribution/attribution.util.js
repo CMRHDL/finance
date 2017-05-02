@@ -28,5 +28,6 @@ export const saveAttribution = ({
 }) => {
   _saveAttribution(attributions, attributionInput, isIncome)
     .then(bind(settingsAction, 'ADD_ATTRIBUTION'))
+    .then(bind(updateSimpleField, 'attributionInput', ''))
     .catch(bind(updateSimpleField, 'addAttributionFailure'))
 }

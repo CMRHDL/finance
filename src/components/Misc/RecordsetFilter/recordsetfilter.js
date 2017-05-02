@@ -5,14 +5,14 @@ import numeral from 'numeral'
 import { filters } from '../../../util/recordset.util'
 
 const props = [
-  { label: 'Betrag von', field: 'filterAmountMin', filter: 'amountMin' },
-  { label: 'Betrag bis', field: 'filterAmountMax', filter: 'amountMax' },
+  { label: 'Betrag von', field: 'filterAmountMin', id: 'amountMin' },
+  { label: 'Betrag bis', field: 'filterAmountMax', id: 'amountMax' },
   {
     label: 'Beschreibung beinhaltet',
     field: 'filterDescription',
-    filter: 'description',
+    id: 'description',
   },
-  { label: 'Code beinhaltet', field: 'filterCode', filter: 'code' },
+  { label: 'Code beinhaltet', field: 'filterCode', id: 'code' },
 ]
 
 const RecordsetFilterComponent = ({
@@ -22,7 +22,7 @@ const RecordsetFilterComponent = ({
 }) => {
   return (
     <div style={{ padding: 25 }}>
-      {props.map(({ label, field, filter }, i) => (
+      {props.map(({ label, field, id }, i) => (
         <TextField
           key={i}
           floatingLabelText={label}
@@ -33,10 +33,10 @@ const RecordsetFilterComponent = ({
               let val = numeral(value).value() ? numeral(value).value() : value
               recordsetFilterAction(
                 'ADD_RECORDSET_FILTER',
-                filters[filter](val)
+                filters[id](val)
               )
             } else {
-              recordsetFilterAction('REMOVE_RECORDSET_FILTER', filter)
+              recordsetFilterAction('REMOVE_RECORDSET_FILTER', id)
             }
           }}
         />
@@ -45,10 +45,7 @@ const RecordsetFilterComponent = ({
         label="Filterung leeren"
         onTouchTap={() => {
           recordsetFilterAction('RESET_RECORDSET_FILTER')
-          updateSimpleField('filterAmountMin', '')
-          updateSimpleField('filterAmountMax', '')
-          updateSimpleField('filterDescription', '')
-          updateSimpleField('filterCode', '')
+          props.forEach(({ field }) => updateSimpleField(field, ''))
         }}
       />
     </div>

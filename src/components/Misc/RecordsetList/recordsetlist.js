@@ -3,6 +3,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { shortDate, currency, bind } from '../../../util'
 import { adjustRecordset } from '../../../util/recordset.util'
 import sum from 'lodash/sum'
+import get from 'lodash/get'
 import { recordsetColumns } from '../../../models'
 import { setOrder, getColor, getOrderInfo } from './util'
 
@@ -81,9 +82,9 @@ const RecordsetList = props => {
                     />
                   </div>
                 </TableRowColumn>
-                {recordsetColumns.map(({ displayName, prop, func }, i) => (
+                {recordsetColumns.map(({ displayName, prop, display }, i) => (
                   <TableRowColumn key={i}>
-                    {func(e[prop])}
+                    {display(get(e, prop))}
                   </TableRowColumn>
                 ))}
 
