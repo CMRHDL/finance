@@ -51,6 +51,7 @@ export const settingsAction = prop => {
   const update = {
     ADD_ATTRIBUTION: makeActionCreator('ADD_ATTRIBUTION', 'attribution'),
     SET_ATTRIBUTION: makeActionCreator('SET_ATTRIBUTION', 'attributions'),
+    UPDATE_INITIAL_AMOUNT: makeActionCreator('UPDATE_INITIAL_AMOUNT', 'value'),
   }
 
   return update[prop]

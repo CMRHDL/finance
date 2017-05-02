@@ -1,6 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const Attribution = require('../models/attribution')
+const Settings = require('../models/settings')
 const Account = require('../models/account')
 const Recordset = require('../models/recordset')
 const _ = require('lodash')
@@ -41,14 +42,6 @@ router.post('/api/account', (req, res, next) => {
   })
 })
 
-// RECORDSET
-router.post('/api/recordset', (req, res, next) => {
-  save(new Recordset(req.body)).subscribe(
-    asPlain(res, 'created Recordset(s)'),
-    console.log
-  )
-})
-
 router.get('/api/recordset', (req, res, next) => {
   // exec(Recordset.find({}).populate('attribution')).subscribe(asJson(res), console.log)
 
@@ -60,31 +53,43 @@ router.get('/api/recordset', (req, res, next) => {
   });
 })
 
-router.delete('/api/recordset', (req, res, next) => {
-  deleteEntity(Recordset.find({})).subscribe(
-    asPlain(res, 'deleted Recordset(s)'),
-    console.log
-  )
-})
+const simpleEndpoints = [
+  { entity: Settings, url: '/api/settings' },
+  { entity: Attribution, url: '/api/attribution' },
+  { entity: Recordset, url: '/api/recordset' },
+]
 
-// ATTRIBUTION
-router.post('/api/attribution', (req, res, next) => {
-  save(new Attribution(req.body)).subscribe(
-    model => res.json(model[0]._doc),
-    console.log
-  )
-})
+simpleEndpoints.forEach(({ entity, url }) => {
+  router.get(url, (req, res, next) => {
+    find(entity).subscribe(asJson(res), console.log)
+  })
 
-router.get('/api/attribution', (req, res, next) => {
-  find(Attribution).subscribe(asJson(res), console.log)
-})
+  router.post(url, (req, res, next) => {
+    save(new entity(req.body)).subscribe(
+      model => res.json(model[0]._doc),
+      console.log
+    )
+  })
 
-router.delete('/api/attribution', (req, res, next) => {
-  deleteEntity(Attribution.find({})).subscribe(
-    asPlain(res, 'deleted Attribution(s)'),
-    console.log
-  )
-})
+  router.delete(url, (req, res, next) => {
+    deleteEntity(entity.find({})).subscribe(
+      asPlain(res, 'deleted'),
+      console.log
+    )
+  })
+
+  router.put(url, (req, res, next) => {
+    const conditions = { '_id': req.body._id };
+    const update = { $set: req.body }
+    const options = { multi: false };
+    entity.update(conditions, update, options, function (err) {
+      if (err) {
+        res.send(err);
+      }
+      res.json('something for ' + req.body.key + ' was updated');
+    });
+  })
+});
 
 function updateSession({ req, res, next }) {
   req.session.save(err => {

@@ -10,6 +10,11 @@ const settings = (state = { attributions: [], initialAmount: 0 }, action) => {
         ...state,
         attributions: action.attributions,
       }
+    case 'UPDATE_INITIAL_AMOUNT':
+      return {
+        ...state,
+        initialAmount: action.value,
+      }
     default:
       return state
   }
