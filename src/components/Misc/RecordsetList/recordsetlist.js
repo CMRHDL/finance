@@ -24,12 +24,7 @@ const style = {
 }
 
 const RecordsetList = props => {
-  const {
-    recordset,
-    recordsetAction,
-    recordsetFilter,
-    simpleFields,
-  } = props
+  const { recordset, recordsetAction, recordsetFilter, simpleFields } = props
   const { recordsetOrderColumn, recordsetOrderOrder } = simpleFields
   const _recordset = adjustRecordset({
     recordset,

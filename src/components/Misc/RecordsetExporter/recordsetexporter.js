@@ -4,6 +4,11 @@ import FlatButton from 'material-ui/FlatButton'
 import { adjustRecordset, buildCsv } from '../../../util/recordset.util'
 import downloadjs from 'downloadjs'
 
+const center = {
+  display: 'flex',
+  justifyContent: 'center',
+}
+
 const RecordsetExporter = ({
   recordset,
   recordsetFilter,
@@ -19,7 +24,7 @@ const RecordsetExporter = ({
   })
 
   return (
-    <div>
+    <div style={center}>
       <TextField
         floatingLabelText="Name der Exportdatei"
         value={simpleFields.recordsetExportFilename}
