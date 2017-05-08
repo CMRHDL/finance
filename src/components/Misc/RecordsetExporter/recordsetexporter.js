@@ -31,7 +31,6 @@ const RecordsetExporter = ({
         label="Exportieren"
         primary={true}
         onTouchTap={() => {
-          console.log(buildCsv(_recordset))
           downloadjs(
             new Blob([buildCsv(_recordset)]),
             simpleFields.recordsetExportFilename + '.csv',

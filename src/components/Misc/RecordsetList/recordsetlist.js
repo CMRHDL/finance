@@ -1,6 +1,6 @@
 import React from 'react'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { shortDate, currency, bind } from '../../../util'
+import { currency, bind } from '../../../util'
 import { adjustRecordset } from '../../../util/recordset.util'
 import sum from 'lodash/sum'
 import get from 'lodash/get'
@@ -29,7 +29,6 @@ const RecordsetList = props => {
     recordsetAction,
     recordsetFilter,
     simpleFields,
-    updateSimpleField,
   } = props
   const { recordsetOrderColumn, recordsetOrderOrder } = simpleFields
   const _recordset = adjustRecordset({

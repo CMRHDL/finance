@@ -1,8 +1,8 @@
 import orderBy from 'lodash/orderBy'
 import flow from 'lodash/flow'
 import get from 'lodash/get'
-import { shortDate, currency } from './index'
 import { recordsetColumns } from '../models'
+import numeral from 'numeral'
 
 export const attributionId = recordset => ({
   ...recordset,
@@ -13,8 +13,8 @@ export const amount = recordset => {
   return {
     ...recordset,
     amount: recordset.attribution.isIncome
-      ? recordset.amount
-      : recordset.amount * -1,
+      ? numeral(recordset.amount).value()
+      : numeral(recordset.amount).value() * -1,
   }
 }
 

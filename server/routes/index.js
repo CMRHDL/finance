@@ -49,6 +49,9 @@ router.get('/api/recordset', (req, res, next) => {
   .find({})
   .populate('attribution')
   .exec(function (err, story) {
+    if (err) {
+      return next(err)
+    }
     res.json(story)
   });
 })
