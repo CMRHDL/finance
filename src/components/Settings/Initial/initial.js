@@ -2,10 +2,7 @@ import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 
-const Initial = ({
-  initialAmount,
-  settingsAction,
-}) => {
+const Initial = ({ initialAmount, settingsAction }) => {
   return (
     <div>
 

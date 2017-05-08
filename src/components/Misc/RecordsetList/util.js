@@ -12,7 +12,7 @@ export const setOrder = (prop, { simpleFields, updateSimpleField }) => {
 }
 
 export const getColor = ({ attribution: { isIncome } }) =>
-  (isIncome ? lightGreen100 : orange100)
+  isIncome ? lightGreen100 : orange100
 
 export const getOrderInfo = (
   prop,

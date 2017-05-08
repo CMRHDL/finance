@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
   recordset: state.recordset,
+  simpleFields: state.simpleFields,
+  recordsetFilter: state.recordsetFilter,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})

@@ -15,8 +15,10 @@
     "downloadjs": "^1.4.7",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "husky": "^0.13.3",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",
+    "lint-staged": "^3.4.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.17.0",
     "moment": "^2.18.1",
@@ -42,11 +44,18 @@
     "socket.io": "^1.7.3"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "prestartasd": "react-scripts build",
     "start": "concurrently \"nodemon\" \"yarn start2\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "start2": "react-scripts start"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --use-tabs false --print-width 80 --tab-width 2 --single-quote true --trailing-comma es5 --bracket-spacing true --jsx-bracket-same-line false --parser babylon --semi false --write",
+      "git add"
+    ]
   }
 }

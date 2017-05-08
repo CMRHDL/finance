@@ -1,6 +1,6 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import numeral from 'numeral'
 import { filters } from '../../../util/recordset.util'
 
@@ -15,13 +15,18 @@ const props = [
   { label: 'Code beinhaltet', field: 'filterCode', id: 'code' },
 ]
 
+const center = {
+  display: 'flex',
+  justifyContent: 'center',
+}
+
 const RecordsetFilterComponent = ({
   simpleFields,
   updateSimpleField,
   recordsetFilterAction,
 }) => {
   return (
-    <div style={{ padding: 25 }}>
+    <div style={{ padding: 25, ...center }}>
       {props.map(({ label, field, id }, i) => (
         <TextField
           key={i}
@@ -31,17 +36,14 @@ const RecordsetFilterComponent = ({
             updateSimpleField(field, value)
             if (value) {
               let val = numeral(value).value() ? numeral(value).value() : value
-              recordsetFilterAction(
-                'ADD_RECORDSET_FILTER',
-                filters[id](val)
-              )
+              recordsetFilterAction('ADD_RECORDSET_FILTER', filters[id](val))
             } else {
               recordsetFilterAction('REMOVE_RECORDSET_FILTER', id)
             }
           }}
         />
       ))}
-      <RaisedButton
+      <FlatButton
         label="Filterung leeren"
         onTouchTap={() => {
           recordsetFilterAction('RESET_RECORDSET_FILTER')
