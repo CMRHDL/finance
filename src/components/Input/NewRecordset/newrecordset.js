@@ -70,15 +70,15 @@ const isComplete = ({ amount, attribution, date, description }) =>
   amount && attribution && date && description
 
 let NewRecordset = ({
+  addedRecordset,
   addedRecordsetAction,
   attributions,
   code,
   newRecordset,
+  simpleFields,
   updateCodePosition,
   updateNewRecordset,
   updateSimpleField,
-  addedRecordset,
-  simpleFields,
 }) => {
   let { date, description, amount, attribution } = newRecordset
 
@@ -88,12 +88,12 @@ let NewRecordset = ({
     <div style={style.container}>
       <div style={style.child}>
         <DatePicker
+          autoOk={true}
+          container="inline"
+          DateTimeFormat={DateTimeFormat}
           floatingLabelText="Datum"
           locale="de-DE"
-          DateTimeFormat={DateTimeFormat}
           value={date}
-          container="inline"
-          autoOk={true}
           onChange={(err, date) => {
             updateNewRecordset('date', date)
           }}
@@ -101,12 +101,12 @@ let NewRecordset = ({
       </div>
       <div style={style.child}>
         <RaisedButton
-          id="addRecordsetButton"
           backgroundColor={isComplete(newRecordset) ? lightGreen500 : ''}
-          label="Übernehmen"
-          labelPosition="before"
           containerElement="label"
           icon={isComplete(newRecordset) ? <Done /> : <NotDone />}
+          id="addRecordsetButton"
+          label="Übernehmen"
+          labelPosition="before"
           onTouchTap={() => {
             if (isComplete(newRecordset)) {
               const adjustedRecordset = adjustamount({

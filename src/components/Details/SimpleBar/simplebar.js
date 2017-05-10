@@ -1,12 +1,12 @@
-import React from 'react'
 import filter from 'ramda/src/filter'
-import map from 'ramda/src/map'
-import sum from 'ramda/src/sum'
-import pipe from 'ramda/src/pipe'
-import uniq from 'ramda/src/uniq'
-import sort from 'ramda/src/sort'
 import gt from 'ramda/src/gt'
 import lt from 'ramda/src/lt'
+import map from 'ramda/src/map'
+import pipe from 'ramda/src/pipe'
+import React from 'react'
+import sort from 'ramda/src/sort'
+import sum from 'ramda/src/sum'
+import uniq from 'ramda/src/uniq'
 
 import { shortDate } from '../../../util'
 
