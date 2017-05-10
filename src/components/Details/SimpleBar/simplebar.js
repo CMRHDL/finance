@@ -1,16 +1,16 @@
-import React from 'react'
 import filter from 'ramda/src/filter'
-import map from 'ramda/src/map'
-import sum from 'ramda/src/sum'
-import pipe from 'ramda/src/pipe'
-import uniq from 'ramda/src/uniq'
-import sort from 'ramda/src/sort'
 import gt from 'ramda/src/gt'
 import lt from 'ramda/src/lt'
+import map from 'ramda/src/map'
+import pipe from 'ramda/src/pipe'
+import React from 'react'
+import sort from 'ramda/src/sort'
+import sum from 'ramda/src/sum'
+import uniq from 'ramda/src/uniq'
 
 import { shortDate } from '../../../util'
 
-import { lightGreen300, orange300 } from 'material-ui/styles/colors'
+import { lightGreen100, orange100 } from 'material-ui/styles/colors'
 
 import {
   BarChart,
@@ -63,8 +63,8 @@ const SimpleBar = ({ recordset, chartStyle }) => {
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Legend />
-        <Bar dataKey="income" name="Einnahmen" fill={lightGreen300} />
-        <Bar dataKey="expense" name="Ausgaben" fill={orange300} />
+        <Bar dataKey="income" name="Einnahmen" fill={lightGreen100} />
+        <Bar dataKey="expense" name="Ausgaben" fill={orange100} />
       </BarChart>
     </div>
   )

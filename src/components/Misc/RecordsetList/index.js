@@ -1,6 +1,10 @@
 import RecordsetListComponent from './recordsetlist'
 
-import { updateSimpleField } from '../../../actions'
+import {
+  updateSimpleField,
+  updateNewRecordset,
+  updateCode,
+} from '../../../actions'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -12,6 +16,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   ...ownProps,
   updateSimpleField(prop, ...args) {
     dispatch(updateSimpleField(prop)(...args))
+  },
+  updateNewRecordset(prop, ...args) {
+    dispatch(updateNewRecordset(prop)(...args))
+  },
+  updateCode(...args) {
+    dispatch(updateCode(...args))
   },
 })
 

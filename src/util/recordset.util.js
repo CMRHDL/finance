@@ -3,6 +3,9 @@ import flow from 'lodash/flow'
 import get from 'lodash/get'
 import { recordsetColumns } from '../models'
 import numeral from 'numeral'
+import map from 'ramda/src/map'
+import pipe from 'ramda/src/pipe'
+import join from 'ramda/src/join'
 
 export const attributionId = recordset => ({
   ...recordset,
@@ -49,18 +52,24 @@ export const filters = {
 export const adjustRecordset = ({
   recordset,
   recordsetFilter = [],
-  recordsetOrderColumn: column,
-  recordsetOrderOrder: order,
+  simpleFields,
 }) => {
+  const { recordsetOrderColumn, recordsetOrderOrder } = simpleFields
   return orderBy(
     flow(recordsetFilter.map(e => e.func))(recordset),
-    [column],
-    [order]
+    [recordsetOrderColumn],
+    [recordsetOrderOrder]
   )
 }
 
+const getDisplayname = map(e => `"${e.displayName}"`)
+const joinComma = join(',')
+
 export const buildCsv = recordset => {
-  const firstRow = recordsetColumns.map(e => `"${e.displayName}"`).join(',')
+  // const firstRow = recordsetColumns.map(e => `"${e.displayName}"`).join(',')
+
+  const firstRow = pipe(getDisplayname, joinComma)(recordsetColumns)
+
   const _recordset = recordset.map(entry =>
     recordsetColumns.map(e => `"${e.display(get(entry, e.prop))}"`).join(',')
   )

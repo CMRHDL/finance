@@ -20,19 +20,19 @@ const style = {
 
 const Attribution = props => {
   const {
-    updateSimpleField,
     addAttributionFailure,
     attributionInput,
     attributions,
     updateAttributionInput,
+    updateSimpleField,
   } = props
   return (
     <div style={{ padding: 50 }}>
       <div style={style.container}>
         <TextField
-          value={attributionInput}
-          onChange={({ target: { value } }) => updateAttributionInput(value)}
           floatingLabelText="Zuordnung hinzufügen"
+          onChange={({ target: { value } }) => updateAttributionInput(value)}
+          value={attributionInput}
         />
         <FlatButton
           label="Einnahme"

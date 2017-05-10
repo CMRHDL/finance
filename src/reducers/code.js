@@ -6,10 +6,16 @@ const code = (
     case 'UPDATE_CODE':
       return action.code
     case 'UPDATE_CODE_POSITION':
-      return {
-        ...state,
-        position: state.position + 1,
-      }
+      console.log('name')
+      return action.code
+        ? {
+            ...action.code,
+            position: action.code.position + 1,
+          }
+        : {
+            ...state,
+            position: state.position + 1,
+          }
     default:
       return state
   }

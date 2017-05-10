@@ -9,19 +9,9 @@ const center = {
   justifyContent: 'center',
 }
 
-const RecordsetExporter = ({
-  recordset,
-  recordsetFilter,
-  simpleFields,
-  updateSimpleField,
-}) => {
-  const { recordsetOrderColumn, recordsetOrderOrder } = simpleFields
-  const _recordset = adjustRecordset({
-    recordset,
-    recordsetFilter,
-    recordsetOrderColumn,
-    recordsetOrderOrder,
-  })
+const RecordsetExporter = props => {
+  const { simpleFields, updateSimpleField } = props
+  const _recordset = adjustRecordset(props)
 
   return (
     <div style={center}>
