@@ -10,7 +10,7 @@ import lt from 'ramda/src/lt'
 
 import { shortDate } from '../../../util'
 
-import { lightGreen300, orange300 } from 'material-ui/styles/colors'
+import { lightGreen100, orange100 } from 'material-ui/styles/colors'
 
 import {
   BarChart,
@@ -63,8 +63,8 @@ const SimpleBar = ({ recordset, chartStyle }) => {
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip />
         <Legend />
-        <Bar dataKey="income" name="Einnahmen" fill={lightGreen300} />
-        <Bar dataKey="expense" name="Ausgaben" fill={orange300} />
+        <Bar dataKey="income" name="Einnahmen" fill={lightGreen100} />
+        <Bar dataKey="expense" name="Ausgaben" fill={orange100} />
       </BarChart>
     </div>
   )

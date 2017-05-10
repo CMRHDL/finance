@@ -11,7 +11,10 @@ const makeActionCreator = (type, ...argNames) => (...args) => {
 export const login = makeActionCreator('LOGIN')
 export const logout = makeActionCreator('LOGOUT')
 export const updateCode = makeActionCreator('UPDATE_CODE', 'code')
-export const updateCodePosition = makeActionCreator('UPDATE_CODE_POSITION')
+export const updateCodePosition = makeActionCreator(
+  'UPDATE_CODE_POSITION',
+  'code'
+)
 
 export const updateNewRecordset = prop => {
   const update = {
@@ -24,6 +27,7 @@ export const updateNewRecordset = prop => {
       'isIncome'
     ),
     reset: makeActionCreator('RESET_NEWRECORDSET'),
+    set: makeActionCreator('SET_NEWRECORDSET', 'value'),
   }
 
   return update[prop]
@@ -32,7 +36,7 @@ export const updateNewRecordset = prop => {
 export const addedRecordsetAction = prop => {
   const update = {
     add: makeActionCreator('ADD_ADDEDRECORDSET', 'value'),
-    remove: makeActionCreator('REMOVE_ADDEDRECORDSET', 'value'),
+    edit: makeActionCreator('EDIT_ADDEDRECORDSET', 'value'),
     reset: makeActionCreator('RESET_ADDEDRECORDSET'),
   }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import Delete from 'material-ui/svg-icons/action/delete'
-import { currency, bind } from '../../../util'
+import Edit from 'material-ui/svg-icons/editor/border-color'
+import { currency, bind, parseCode, abs } from '../../../util'
 import { adjustRecordset } from '../../../util/recordset.util'
 import sum from 'lodash/sum'
 import get from 'lodash/get'
@@ -24,14 +24,8 @@ const style = {
 }
 
 const RecordsetList = props => {
-  const { recordset, recordsetAction, recordsetFilter, simpleFields } = props
-  const { recordsetOrderColumn, recordsetOrderOrder } = simpleFields
-  const _recordset = adjustRecordset({
-    recordset,
-    recordsetFilter,
-    recordsetOrderColumn,
-    recordsetOrderOrder,
-  })
+  const { recordsetAction, updateNewRecordset, updateCode } = props
+  const _recordset = adjustRecordset(props)
 
   return (
     <div>
@@ -65,13 +59,15 @@ const RecordsetList = props => {
                 }}
               >
                 <TableRowColumn style={style.small}>
-                  <div title="Zeile löschen">
-                    <Delete
+                  <div title="Zeile anpassen">
+                    <Edit
                       style={{
                         cursor: 'pointer',
                       }}
                       onClick={() => {
-                        recordsetAction('remove', i)
+                        recordsetAction('edit', i)
+                        updateNewRecordset('set', abs(e))
+                        updateCode(parseCode(e.code))
                       }}
                     />
                   </div>

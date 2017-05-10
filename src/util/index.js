@@ -8,6 +8,10 @@ import padStart from 'lodash/padStart'
 export const bind = (func, ...args) => func.bind(null, ...args)
 export const currency = number => numeral(number).format('0,0.00 $')
 export const shortDate = date => moment(date).format('L')
+export const abs = r => ({
+  ...r,
+  amount: r.amount >= 0 ? r.amount : r.amount * -1,
+})
 export const generateCode = ({ number, page, position, year }) =>
   year +
   padStart(number, 3, '0') +

@@ -15,25 +15,14 @@ const chartStyle = {
   },
 }
 
-const Details = ({
-  recordset,
-  recordsetFilter,
-  simpleFields: { recordsetOrderColumn },
-  simpleFields: { recordsetOrderOrder },
-}) => {
-  const data = adjustRecordset({
-    recordset,
-    recordsetFilter,
-    recordsetOrderColumn,
-    recordsetOrderOrder,
-  })
-
-  const props = { recordset: data, chartStyle }
+const Details = props => {
+  const recordset = adjustRecordset(props)
+  const chartProps = { recordset, chartStyle }
   return (
     <div>
       <RecordsetFilter />
-      <SimpleLine {...props} />
-      <SimpleBar {...props} />
+      <SimpleLine {...chartProps} />
+      <SimpleBar {...chartProps} />
     </div>
   )
 }

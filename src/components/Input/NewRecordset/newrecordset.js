@@ -9,9 +9,10 @@ import FlatButton from 'material-ui/FlatButton'
 import Done from 'material-ui/svg-icons/action/done'
 import NotDone from 'material-ui/svg-icons/content/clear'
 import { lightGreen500 } from 'material-ui/styles/colors'
-import { generateCode, bind } from '../../../util'
+import { generateCode, parseCode, bind } from '../../../util'
 import { amount as adjustamount } from '../../../util/recordset.util'
 import sortBy from 'lodash/sortBy'
+import maxBy from 'lodash/maxBy'
 
 const style = {
   container: {
@@ -76,6 +77,8 @@ let NewRecordset = ({
   updateCodePosition,
   updateNewRecordset,
   updateSimpleField,
+  addedRecordset,
+  simpleFields,
 }) => {
   let { date, description, amount, attribution } = newRecordset
 
@@ -106,15 +109,20 @@ let NewRecordset = ({
           icon={isComplete(newRecordset) ? <Done /> : <NotDone />}
           onTouchTap={() => {
             if (isComplete(newRecordset)) {
-              updateCodePosition()
-              addedRecordsetAction(
-                'add',
-                adjustamount({
-                  ...newRecordset,
-                  code: generateCode(code),
-                })
-              )
+              const adjustedRecordset = adjustamount({
+                ...newRecordset,
+                code: generateCode(code),
+              })
+              addedRecordsetAction('add', adjustedRecordset)
               updateNewRecordset('reset')
+
+              if (simpleFields.codeUseSaveMode) {
+                updateCodePosition(
+                  parseCode(
+                    maxBy([...addedRecordset, adjustedRecordset], 'code').code
+                  )
+                )
+              }
             }
           }}
         /><br /><br />

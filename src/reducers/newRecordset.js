@@ -36,6 +36,8 @@ const newRecordset = (
         description: '',
         isIncome: true,
       }
+    case 'SET_NEWRECORDSET':
+      return action.value
     default:
       return state
   }

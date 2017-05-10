@@ -11,7 +11,9 @@ import { connect } from 'react-redux'
 const mapStateToProps = (state, ownProps) => ({
   attributions: state.settings.attributions,
   newRecordset: state.newRecordset,
+  addedRecordset: state.addedRecordset,
   code: state.code,
+  simpleFields: state.simpleFields,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -21,8 +23,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   addedRecordsetAction(prop, ...args) {
     dispatch(addedRecordsetAction(prop)(...args))
   },
-  updateCodePosition(prop, ...args) {
-    dispatch(updateCodePosition())
+  updateCodePosition(...args) {
+    dispatch(updateCodePosition(...args))
   },
   updateSimpleField(prop, ...args) {
     dispatch(updateSimpleField(prop)(...args))
