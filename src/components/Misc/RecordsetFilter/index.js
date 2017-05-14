@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = (state, ownProps) => ({
   simpleFields: state.simpleFields,
+  attributions: state.settings.attributions,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

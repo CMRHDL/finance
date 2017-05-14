@@ -23,3 +23,5 @@ export const parseCode = code => {
     .map(e => numeral(e).value())
   return { year, number, page, position }
 }
+
+export const suffix = isIncome => (isIncome ? ' (E)' : ' (A)')

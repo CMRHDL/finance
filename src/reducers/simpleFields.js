@@ -16,6 +16,8 @@ const fields = [
   'recordsetOrderColumn',
   'recordsetOrderOrder',
   'username',
+  'recordsetFilterAttribution',
+  'recordsetFilterAttributionInput',
 ]
 
 const initialState = fields.reduce((o, e) => {
