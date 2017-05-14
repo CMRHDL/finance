@@ -6,7 +6,6 @@ const code = (
     case 'UPDATE_CODE':
       return action.code
     case 'UPDATE_CODE_POSITION':
-      console.log('name')
       return action.code
         ? {
             ...action.code,

@@ -2,10 +2,19 @@ import orderBy from 'lodash/orderBy'
 import flow from 'lodash/flow'
 import get from 'lodash/get'
 import { recordsetColumns } from '../models'
+import { suffix } from './index'
 import numeral from 'numeral'
 import map from 'ramda/src/map'
 import pipe from 'ramda/src/pipe'
 import join from 'ramda/src/join'
+import React from 'react'
+import sortBy from 'lodash/sortBy'
+import MenuItem from 'material-ui/MenuItem'
+import find from 'ramda/src/find'
+import propEq from 'ramda/src/propEq'
+import curry from 'ramda/src/curry'
+import gt from 'ramda/src/gt'
+import lt from 'ramda/src/lt'
 
 export const attributionId = recordset => ({
   ...recordset,
@@ -21,6 +30,7 @@ export const amount = recordset => {
   }
 }
 
+/*
 export const filters = {
   amountMax: amountMax => ({
     func: recordset => recordset.filter(e => e.amount < amountMax),
@@ -30,23 +40,48 @@ export const filters = {
     func: recordset => recordset.filter(e => e.amount > amountMin),
     id: 'amountMin',
   }),
-  // dateMin: dateMin => ({
-  //   func: recordset => recordset.filter(e => e.date > dateMin),
-  //   id: 'dateMin',
-  // }),
-  // dateMax: dateMax => ({
-  //   func: recordset => recordset.filter(e => e.date > dateMax),
-  //   id: 'dateMax',
-  // }),
   description: description => ({
     func: recordset =>
       recordset.filter(e => e.description.indexOf(description) > -1),
     id: 'description',
   }),
   code: code => ({
-    func: recordset => recordset.filter(e => (e.code + '').indexOf(code) > -1),
+    func: recordset => {
+      return recordset.filter(e => (e.code + '').indexOf(code) > -1)
+    },
     id: 'code',
   }),
+  attribution: attributions => ({
+    func: recordset => {
+      const ids = attributions.map(e => e._id)
+      return recordset.filter(e => ids.indexOf(e.attribution._id) > -1)
+    },
+    id: 'attribution',
+  }),
+}
+*/
+
+// + '' in case str is a number
+const contains = (val, str) => (str + '').indexOf(val) > -1
+const containsAttribution = curry((arg, recordset) =>
+  recordset.filter(e => arg.map(e => e._id).indexOf(e.attribution._id) > -1)
+)
+const buildFilter = curry((prop, fn, arg, recordset) =>
+  recordset.filter(e => fn(arg, e[prop]))
+)
+
+// prettier-ignore
+const filterSpec = [
+  { id: 'amountMax',    filter: buildFilter('amount', gt) },
+  { id: 'amountMin',    filter: buildFilter('amount', lt) },
+  { id: 'description',  filter: buildFilter('description', contains) },
+  { id: 'code',         filter: buildFilter('code', contains) },
+  { id: 'attribution',  filter: containsAttribution },
+]
+
+export const filters = (id, val) => {
+  const { filter } = find(propEq('id', id), filterSpec)
+  return { id, func: filter(val) }
 }
 
 export const adjustRecordset = ({
@@ -76,3 +111,19 @@ export const buildCsv = recordset => {
 
   return [firstRow, ..._recordset].join('\n')
 }
+
+export const createDatasource = arr =>
+  sortBy(
+    arr.map(a => ({
+      text: a.attribution + suffix(a.isIncome),
+      value: (
+        <MenuItem
+          primaryText={a.attribution}
+          secondaryText={suffix(a.isIncome)}
+        />
+      ),
+      attribution: a,
+      isIncome: a.isIncome,
+    })),
+    ['isIncome', 'text']
+  )
