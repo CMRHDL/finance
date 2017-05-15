@@ -15,6 +15,7 @@ import propEq from 'ramda/src/propEq'
 import curry from 'ramda/src/curry'
 import gt from 'ramda/src/gt'
 import lt from 'ramda/src/lt'
+import moment from 'moment'
 
 export const attributionId = recordset => ({
   ...recordset,
@@ -66,17 +67,22 @@ const contains = (val, str) => (str + '').indexOf(val) > -1
 const containsAttribution = curry((arg, recordset) =>
   recordset.filter(e => arg.map(e => e._id).indexOf(e.attribution._id) > -1)
 )
+const date = curry((fn, arg, recordset) =>
+  recordset.filter(e => moment(e.date)[fn](moment(arg)))
+)
 const buildFilter = curry((prop, fn, arg, recordset) =>
   recordset.filter(e => fn(arg, e[prop]))
 )
 
 // prettier-ignore
 const filterSpec = [
-  { id: 'amountMax',    filter: buildFilter('amount', gt) },
-  { id: 'amountMin',    filter: buildFilter('amount', lt) },
-  { id: 'description',  filter: buildFilter('description', contains) },
-  { id: 'code',         filter: buildFilter('code', contains) },
-  { id: 'attribution',  filter: containsAttribution },
+  { id: 'filterAmountMax',    filter: buildFilter('amount', gt) },
+  { id: 'filterAmountMin',    filter: buildFilter('amount', lt) },
+  { id: 'filterDescription',  filter: buildFilter('description', contains) },
+  { id: 'filterCode',         filter: buildFilter('code', contains) },
+  { id: 'filterAttribution',  filter: containsAttribution },
+  { id: 'filterDateMax',      filter: date('isAfter') },
+  { id: 'filterDateMin',      filter: date('isBefore') },
 ]
 
 export const filters = (id, val) => {

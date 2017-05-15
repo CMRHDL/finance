@@ -7,17 +7,19 @@ const fields = [
   'codeUseSaveMode',
   'filterAmountMax',
   'filterAmountMin',
+  'filterAttribution',
   'filterCode',
+  'filterDateMax',
+  'filterDateMin',
   'filterDescription',
   'loginError',
   'openAttributionDialog',
   'password',
   'recordsetExportFilename',
+  'recordsetFilterAttributionInput',
   'recordsetOrderColumn',
   'recordsetOrderOrder',
   'username',
-  'recordsetFilterAttribution',
-  'recordsetFilterAttributionInput',
 ]
 
 const initialState = fields.reduce((o, e) => {

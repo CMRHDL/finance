@@ -7,6 +7,7 @@ import {
   updateCodePosition,
 } from '../../../actions'
 import { connect } from 'react-redux'
+import curryN from 'ramda/src/curryN'
 
 const mapStateToProps = (state, ownProps) => ({
   attributions: state.settings.attributions,
@@ -17,9 +18,9 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateNewRecordset(prop, ...args) {
+  updateNewRecordset: curryN(2, (prop, ...args) => {
     dispatch(updateNewRecordset(prop)(...args))
-  },
+  }),
   addedRecordsetAction(prop, ...args) {
     dispatch(addedRecordsetAction(prop)(...args))
   },
