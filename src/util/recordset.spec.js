@@ -29,74 +29,74 @@ const mock = [
 
 const spec = [
   {
-    id: 'amountMin',
+    id: 'filterAmountMin',
     expect: 2,
     arg: 0,
   },
   {
-    id: 'amountMin',
+    id: 'filterAmountMin',
     expect: 3,
     arg: -1000,
   },
   {
-    id: 'amountMax',
+    id: 'filterAmountMax',
     expect: 0,
     arg: -1000,
   },
   {
-    id: 'amountMax',
+    id: 'filterAmountMax',
     expect: 3,
     arg: 90000,
   },
   {
-    id: 'amountMax',
+    id: 'filterAmountMax',
     expect: 2,
     arg: 101,
   },
   {
-    id: 'description',
+    id: 'filterDescription',
     expect: 1,
     arg: 'Q',
   },
   {
-    id: 'description',
+    id: 'filterDescription',
     expect: 2,
     arg: 'o',
   },
   {
-    id: 'code',
+    id: 'filterCode',
     expect: 0,
     arg: '7',
   },
   {
-    id: 'code',
+    id: 'filterCode',
     expect: 1,
     arg: '0',
   },
   {
-    id: 'code',
+    id: 'filterCode',
     expect: 1,
     arg: '9',
   },
   {
-    id: 'attribution',
+    id: 'filterAttribution',
     expect: 1,
     arg: [{ _id: '1' }],
   },
   {
-    id: 'attribution',
+    id: 'filterAttribution',
     expect: 2,
     arg: [{ _id: '5' }],
   },
   {
-    id: 'attribution',
+    id: 'filterAttribution',
     expect: 0,
     arg: [{ _id: '7' }],
   },
 ]
 
 spec.forEach(spec => {
-  it('should filter by ' + spec.id, () => {
+  it('should ' + spec.id, () => {
     expect(filters(spec.id, spec.arg).func(mock).length).toEqual(spec.expect)
   })
 })

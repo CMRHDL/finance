@@ -1,7 +1,5 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
-import DatePicker from 'material-ui/DatePicker'
-import areIntlLocalesSupported from 'intl-locales-supported'
 import AutoComplete from 'material-ui/AutoComplete'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
@@ -14,6 +12,7 @@ import {
   createDatasource,
 } from '../../../util/recordset.util'
 import maxBy from 'lodash/maxBy'
+import Datepicker from '../../Misc/Datepicker'
 
 const style = {
   container: {
@@ -39,17 +38,6 @@ const style = {
   },
 }
 
-let DateTimeFormat
-
-if (areIntlLocalesSupported(['de', 'de-DE'])) {
-  DateTimeFormat = global.Intl.DateTimeFormat
-} else {
-  const IntlPolyfill = require('intl')
-  DateTimeFormat = IntlPolyfill.DateTimeFormat
-  require('intl/locale-data/jsonp/de')
-  require('intl/locale-data/jsonp/de-DE')
-}
-
 const isComplete = ({ amount, attribution, date, description }) =>
   amount && attribution && date && description
 
@@ -71,17 +59,7 @@ let NewRecordset = ({
   return (
     <div style={style.container}>
       <div style={style.child}>
-        <DatePicker
-          autoOk={true}
-          container="inline"
-          DateTimeFormat={DateTimeFormat}
-          floatingLabelText="Datum"
-          locale="de-DE"
-          value={date}
-          onChange={(err, date) => {
-            updateNewRecordset('date', date)
-          }}
-        />
+        <Datepicker value={date} onChange={updateNewRecordset('date')} />
       </div>
       <div style={style.child}>
         <RaisedButton
@@ -98,7 +76,7 @@ let NewRecordset = ({
                 code: generateCode(code),
               })
               addedRecordsetAction('add', adjustedRecordset)
-              updateNewRecordset('reset')
+              updateNewRecordset('reset', null)
 
               if (simpleFields.codeUseSaveMode) {
                 updateCodePosition(

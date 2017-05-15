@@ -1,20 +1,20 @@
 import AutoComplete from 'material-ui/AutoComplete'
 import React from 'react'
-import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
-import numeral from 'numeral'
-import { filters, createDatasource } from '../../../util/recordset.util'
+import Datepicker from '../../Misc/Datepicker'
+import Textfield from '../../Misc/Textfield'
+import { createDatasource } from '../../../util/recordset.util'
 import { suffix } from '../../../util'
+import { updateFilter } from './util'
 
-const props = [
-  { label: 'Betrag von', field: 'filterAmountMin', id: 'amountMin' },
-  { label: 'Betrag bis', field: 'filterAmountMax', id: 'amountMax' },
-  {
-    label: 'Beschreibung beinhaltet',
-    field: 'filterDescription',
-    id: 'description',
-  },
-  { label: 'Code beinhaltet', field: 'filterCode', id: 'code' },
+// prettier-ignore
+const _simpleFilterFields = [
+  { label: 'Betrag von', field: 'filterAmountMin', type: 'text' },
+  { label: 'Betrag bis', field: 'filterAmountMax', type: 'text' },
+  { label: 'Beschreibung beinhaltet', field: 'filterDescription', type: 'text' },
+  { label: 'Code beinhaltet', field: 'filterCode', type: 'text' },
+  { label: 'Datum von', field: 'filterDateMax', type: 'date' },
+  { label: 'Datum bis', field: 'filterDateMin', type: 'date' },
 ]
 
 const center = {
@@ -29,41 +29,36 @@ const border = {
   padding: 5,
 }
 
-const RecordsetFilterComponent = ({
-  attributions,
-  recordsetFilterAction,
-  simpleFields,
-  updateSimpleField,
-}) => {
+const RecordsetFilterComponent = props => {
   const {
-    recordsetFilterAttribution,
-    recordsetFilterAttributionInput,
-  } = simpleFields
-  const ids = (recordsetFilterAttribution || []).map(e => e._id)
+    attributions,
+    recordsetFilterAction,
+    simpleFields,
+    updateSimpleField,
+  } = props
+  const { filterAttribution, recordsetFilterAttributionInput } = simpleFields
+  const ids = (filterAttribution || []).map(e => e._id)
   let dataSource = createDatasource(attributions).filter(
     e => ids.indexOf(e.attribution._id) === -1
   )
+
+  const simpleFilterFields = _simpleFilterFields.map(field => ({
+    ...field,
+    key: field.field,
+    defaultValue: field.type === 'text' ? '' : null,
+    value: simpleFields[field.field] || (field.type === 'text' ? '' : null),
+    onChange: updateFilter(props, field.field),
+  }))
+
   return (
     <div>
       <div style={{ padding: 25, ...center }}>
-        {props.map(({ label, field, id }, i) => (
-          <TextField
-            key={i}
-            floatingLabelText={label}
-            value={simpleFields[field]}
-            onChange={({ target: { value } }) => {
-              updateSimpleField(field, value)
-              if (value) {
-                let val = numeral(value).value()
-                  ? numeral(value).value()
-                  : value
-                recordsetFilterAction('ADD_RECORDSET_FILTER', filters(id, val))
-              } else {
-                recordsetFilterAction('REMOVE_RECORDSET_FILTER', id)
-              }
-            }}
-          />
-        ))}
+        {simpleFilterFields.map(
+          field =>
+            field.type === 'text'
+              ? <Textfield {...field} />
+              : <Datepicker {...field} />
+        )}
       </div>
       <div style={{ padding: 25, ...center }}>
         <AutoComplete
@@ -73,15 +68,8 @@ const RecordsetFilterComponent = ({
           openOnFocus={true}
           searchText={recordsetFilterAttributionInput}
           onNewRequest={({ attribution }) => {
-            const filterAttributions = [
-              ...recordsetFilterAttribution,
-              attribution,
-            ]
-            updateSimpleField('recordsetFilterAttribution', filterAttributions)
-            recordsetFilterAction(
-              'ADD_RECORDSET_FILTER',
-              filters('attribution', filterAttributions)
-            )
+            const filterAttributions = [...filterAttribution, attribution]
+            updateFilter(props, 'filterAttribution', filterAttributions)
             updateSimpleField('recordsetFilterAttributionInput', '')
           }}
           onUpdateInput={value => {
@@ -89,32 +77,17 @@ const RecordsetFilterComponent = ({
           }}
         />
         <div>
-          {(recordsetFilterAttribution || []).map((e, i) => {
+          {(filterAttribution || []).map((e, i) => {
             return (
               <div
                 key={i}
                 style={{ ...border, cursor: 'pointer' }}
                 onClick={() => {
-                  const filterAttributions = recordsetFilterAttribution.filter(
-                    a => {
-                      return a._id !== e._id
-                    }
+                  updateFilter(
+                    props,
+                    'filterAttribution',
+                    filterAttribution.filter(a => a._id !== e._id)
                   )
-                  updateSimpleField(
-                    'recordsetFilterAttribution',
-                    filterAttributions
-                  )
-                  if (filterAttributions.length) {
-                    recordsetFilterAction(
-                      'ADD_RECORDSET_FILTER',
-                      filters['attribution'](filterAttributions)
-                    )
-                  } else {
-                    recordsetFilterAction(
-                      'REMOVE_RECORDSET_FILTER',
-                      'attribution'
-                    )
-                  }
                 }}
               >
                 {e.attribution + suffix(e.isIncome)}
@@ -127,8 +100,10 @@ const RecordsetFilterComponent = ({
           label="Filterung leeren"
           onTouchTap={() => {
             recordsetFilterAction('RESET_RECORDSET_FILTER')
-            props.forEach(({ field }) => updateSimpleField(field, ''))
-            updateSimpleField('recordsetFilterAttribution', [])
+            simpleFilterFields.forEach(({ field, defaultValue }) =>
+              updateSimpleField(field, defaultValue)
+            )
+            updateSimpleField('filterAttribution', [])
             updateSimpleField('recordsetFilterAttributionInput', '')
           }}
         />
