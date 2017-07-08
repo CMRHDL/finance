@@ -1,11 +1,14 @@
+import axios from 'axios'
 import React from 'react'
 import Edit from 'material-ui/svg-icons/editor/border-color'
-import { currency, bind, parseCode, abs } from '../../../util'
+import Delete from 'material-ui/svg-icons/action/delete'
+import { currency, bind, parseCode, toDate, abs } from '../../../util'
 import { adjustRecordset } from '../../../util/recordset.util'
 import sum from 'lodash/sum'
 import get from 'lodash/get'
 import { recordsetColumns } from '../../../models'
 import { setOrder, getColor, getOrderInfo } from './util'
+import { browserHistory } from 'react-router'
 
 import {
   Table,
@@ -24,7 +27,12 @@ const style = {
 }
 
 const RecordsetList = props => {
-  const { recordsetAction, updateNewRecordset, updateCode } = props
+  const {
+    recordsetAction,
+    deleteAction,
+    updateNewRecordset,
+    updateCode,
+  } = props
   const _recordset = adjustRecordset(props)
 
   return (
@@ -59,17 +67,32 @@ const RecordsetList = props => {
                 }}
               >
                 <TableRowColumn style={style.small}>
-                  <div title="Zeile anpassen">
+                  <div>
                     <Edit
+                      title="Zeile anpassen"
                       style={{
                         cursor: 'pointer',
                       }}
                       onClick={() => {
                         recordsetAction('edit', i)
-                        updateNewRecordset('set', abs(e))
-                        updateCode(parseCode(e.code))
+                        const { _id, ...data } = e
+                        updateNewRecordset('set', toDate(abs(data)))
+                        updateCode(parseCode(data.code))
+                        browserHistory.push('/home/input')
                       }}
                     />
+                    {deleteAction &&
+                      <Delete
+                        title="Zeile löschen"
+                        style={{
+                          cursor: 'pointer',
+                          marginLeft: '5px',
+                        }}
+                        onClick={() => {
+                          axios.patch('/api/recordset', { ...e })
+                          deleteAction('delete', e._id)
+                        }}
+                      />}
                   </div>
                 </TableRowColumn>
                 {recordsetColumns.map(({ displayName, prop, display }, i) => (

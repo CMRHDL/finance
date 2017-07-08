@@ -15,7 +15,10 @@ import propEq from 'ramda/src/propEq'
 import curry from 'ramda/src/curry'
 import gt from 'ramda/src/gt'
 import lt from 'ramda/src/lt'
+import sum from 'ramda/src/sum'
 import moment from 'moment'
+
+import { currency } from './index'
 
 export const attributionId = recordset => ({
   ...recordset,
@@ -115,7 +118,9 @@ export const buildCsv = recordset => {
     recordsetColumns.map(e => `"${e.display(get(entry, e.prop))}"`).join(',')
   )
 
-  return [firstRow, ..._recordset].join('\n')
+  const total = currency(sum(recordset.map(e => e.amount)))
+
+  return [firstRow, ..._recordset, `,,"${total}",,`].join('\n')
 }
 
 export const createDatasource = arr =>

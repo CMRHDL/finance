@@ -46,6 +46,8 @@ export const addedRecordsetAction = prop => {
 export const recordsetAction = prop => {
   const update = {
     add: makeActionCreator('ADD_RECORDSET', 'data'),
+    edit: makeActionCreator('EDIT_RECORDSET', 'data'),
+    delete: makeActionCreator('DELETE_RECORDSET', 'index'),
   }
 
   return update[prop]

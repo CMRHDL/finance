@@ -12,6 +12,10 @@ export const abs = r => ({
   ...r,
   amount: r.amount >= 0 ? r.amount : r.amount * -1,
 })
+export const toDate = r => ({
+  ...r,
+  date: new Date(r.date),
+})
 export const generateCode = ({ number, page, position, year }) =>
   year +
   padStart(number, 3, '0') +

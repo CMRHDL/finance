@@ -6,6 +6,7 @@ const Account = require('../models/account')
 const Recordset = require('../models/recordset')
 const _ = require('lodash')
 const router = express.Router()
+const backup = require('mongodb-backup')
 
 const {
   find,
@@ -45,15 +46,32 @@ router.post('/api/account', (req, res, next) => {
 router.get('/api/recordset', (req, res, next) => {
   // exec(Recordset.find({}).populate('attribution')).subscribe(asJson(res), console.log)
 
-  Recordset
-  .find({})
-  .populate('attribution')
-  .exec(function (err, story) {
-    if (err) {
-      return next(err)
-    }
-    res.json(story)
-  });
+  Recordset.find({})
+    .populate('attribution')
+    .sort('code')
+    .exec(function(err, story) {
+      if (err) {
+        return next(err)
+      }
+      res.json(story)
+    })
+})
+
+router.patch('/api/recordset', (req, res, next) => {
+  if (req.body._id) {
+    backup({
+      uri: 'mongodb://127.0.0.1:27017/finance',
+      root: __dirname + '/backup/' + +new Date(),
+      callback: function(err) {
+        if (err) {
+          console.error(err)
+        } else {
+          console.log('backed up')
+          Recordset.find({ _id: req.body._id }).remove().exec()
+        }
+      },
+    })
+  }
 })
 
 const simpleEndpoints = [
@@ -82,17 +100,17 @@ simpleEndpoints.forEach(({ entity, url }) => {
   })
 
   router.put(url, (req, res, next) => {
-    const conditions = { '_id': req.body._id };
+    const conditions = { _id: req.body._id }
     const update = { $set: req.body }
-    const options = { multi: false };
-    entity.update(conditions, update, options, function (err) {
+    const options = { multi: false }
+    entity.update(conditions, update, options, function(err) {
       if (err) {
-        res.send(err);
+        res.send(err)
       }
-      res.json('something for ' + req.body.key + ' was updated');
-    });
+      res.json('something for ' + req.body.key + ' was updated')
+    })
   })
-});
+})
 
 function updateSession({ req, res, next }) {
   req.session.save(err => {

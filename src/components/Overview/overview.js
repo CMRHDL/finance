@@ -10,7 +10,12 @@ const style = {
   },
 }
 
-const Overview = ({ recordset, recordsetAction, recordsetFilter }) => {
+const Overview = ({
+  deleteAction,
+  recordset,
+  recordsetAction,
+  recordsetFilter,
+}) => {
   return (
     <div style={style.padding}>
       <RecordsetFilter />
@@ -19,6 +24,7 @@ const Overview = ({ recordset, recordsetAction, recordsetFilter }) => {
         recordset={recordset}
         recordsetAction={recordsetAction}
         recordsetFilter={recordsetFilter}
+        deleteAction={deleteAction}
       />
     </div>
   )
