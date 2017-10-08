@@ -87,26 +87,36 @@ let NewRecordset = ({
               }
             }
           }}
-        /><br /><br />
+        />
+        <br />
+        <br />
         <TextField
           floatingLabelText="Beschreibung"
           value={description}
           onChange={({ target: { value } }) => {
             updateNewRecordset('description', value)
           }}
-        /><br /><br />
+        />
+        <br />
+        <br />
         <TextField
           floatingLabelText="Betrag"
           value={amount}
           onChange={({ target: { value } }) => {
             updateNewRecordset('amount', value)
           }}
-        /><br /><br />
+        />
+        <br />
+        <br />
         <div>
           <AutoComplete
             floatingLabelText="Zuordnung"
             filter={AutoComplete.fuzzyFilter}
             dataSource={dataSource}
+            listStyle={{
+              overflowY: 'scroll',
+              maxHeight: '300px',
+            }}
             searchText={
               attribution
                 ? attribution.attribution + suffix(attribution.isIncome)

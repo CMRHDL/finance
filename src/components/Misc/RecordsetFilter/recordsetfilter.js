@@ -67,6 +67,10 @@ const RecordsetFilterComponent = props => {
           dataSource={dataSource}
           openOnFocus={true}
           searchText={recordsetFilterAttributionInput}
+          listStyle={{
+            overflowY: 'scroll',
+            maxHeight: '300px',
+          }}
           onNewRequest={({ attribution }) => {
             const filterAttributions = [...filterAttribution, attribution]
             updateFilter(props, 'filterAttribution', filterAttributions)

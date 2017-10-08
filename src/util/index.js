@@ -1,7 +1,27 @@
 import moment from 'moment'
 import numeral from 'numeral'
 import 'numeral/locales/de'
-numeral.locale('de')
+
+numeral.register('locale', 'dede', {
+  delimiters: {
+    thousands: '',
+    decimal: ',',
+  },
+  abbreviations: {
+    thousand: 'k',
+    million: 'm',
+    billion: 'b',
+    trillion: 't',
+  },
+  ordinal: function(number) {
+    return '.'
+  },
+  currency: {
+    symbol: '€',
+  },
+})
+
+numeral.locale('dede')
 
 import padStart from 'lodash/padStart'
 
