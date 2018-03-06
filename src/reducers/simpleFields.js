@@ -19,6 +19,7 @@ const fields = [
   'recordsetFilterAttributionInput',
   'recordsetOrderColumn',
   'recordsetOrderOrder',
+  'removeRowFeedback',
   'username',
 ]
 

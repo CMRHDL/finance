@@ -67,7 +67,9 @@ router.patch('/api/recordset', (req, res, next) => {
           console.error(err)
         } else {
           console.log('backed up')
-          Recordset.find({ _id: req.body._id }).remove().exec()
+          Recordset.find({ _id: req.body._id }).remove().exec((err, result) => {
+            res.json(result)
+          })
         }
       },
     })

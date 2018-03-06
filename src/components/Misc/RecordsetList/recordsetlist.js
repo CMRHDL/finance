@@ -9,6 +9,7 @@ import get from 'lodash/get'
 import { recordsetColumns } from '../../../models'
 import { setOrder, getColor, getOrderInfo } from './util'
 import { browserHistory } from 'react-router'
+import Snackbar from '../../Misc/Snackbar'
 
 import {
   Table,
@@ -32,6 +33,7 @@ const RecordsetList = props => {
     deleteAction,
     updateNewRecordset,
     updateCode,
+    updateRemoveRowFeedback,
   } = props
   const _recordset = adjustRecordset(props)
 
@@ -43,18 +45,16 @@ const RecordsetList = props => {
             <TableHeaderColumn style={style.small}>
               Funktionen
             </TableHeaderColumn>
-            {recordsetColumns.map(({ displayName, prop }, i) => (
+            {recordsetColumns.map(({ displayName, prop }, i) =>
               <TableHeaderColumn key={i}>
                 <div
                   style={{ cursor: 'pointer' }}
                   onClick={bind(setOrder, prop, props)}
                 >
-                  {displayName}
-                  {' '}
-                  {getOrderInfo(prop, props)}
+                  {displayName} {getOrderInfo(prop, props)}
                 </div>
               </TableHeaderColumn>
-            ))}
+            )}
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false} showRowHover={true}>
@@ -89,18 +89,31 @@ const RecordsetList = props => {
                           marginLeft: '5px',
                         }}
                         onClick={() => {
-                          axios.patch('/api/recordset', { ...e })
-                          deleteAction('delete', e._id)
+                          if (
+                            window.confirm(
+                              `Zeile ${e.description} mit Code ${e.code} und Betrag ${currency(
+                                e.amount
+                              )} löschen?`
+                            )
+                          ) {
+                            axios
+                              .patch('/api/recordset', e)
+                              .then(({ status }) => {
+                                if (status === 200) {
+                                  updateRemoveRowFeedback('Zeile gelöscht.')
+                                }
+                              })
+                            deleteAction('delete', e._id)
+                          }
                         }}
                       />}
                   </div>
                 </TableRowColumn>
-                {recordsetColumns.map(({ displayName, prop, display }, i) => (
+                {recordsetColumns.map(({ displayName, prop, display }, i) =>
                   <TableRowColumn key={i}>
                     {display(get(e, prop))}
                   </TableRowColumn>
-                ))}
-
+                )}
               </TableRow>
             )
           })}
@@ -118,6 +131,11 @@ const RecordsetList = props => {
           </TableRow>
         </TableFooter>
       </Table>
+      <Snackbar
+        bodyStyle={{ background: 'green' }}
+        message={props.simpleFields.removeRowFeedback}
+        updateMessage={updateRemoveRowFeedback}
+      />
     </div>
   )
 }

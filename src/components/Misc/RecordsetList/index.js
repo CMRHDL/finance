@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateSimpleField(prop, ...args) {
     dispatch(updateSimpleField(prop)(...args))
   },
+  updateRemoveRowFeedback: value => {
+    dispatch(updateSimpleField('removeRowFeedback')(value))
+  },
   updateNewRecordset(prop, ...args) {
     dispatch(updateNewRecordset(prop)(...args))
   },
