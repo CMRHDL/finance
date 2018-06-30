@@ -1,6 +1,5 @@
 import numeral from 'numeral'
 import { filters } from '../../../util/recordset.util'
-import pathOr from 'ramda/src/pathOr'
 import curryN from 'ramda/src/curryN'
 
 export const updateFilter = curryN(

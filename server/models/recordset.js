@@ -7,6 +7,7 @@ const Recordset = new Schema({
   code: Number,
   date: Date,
   description: String,
+  updatedAt: Date,
 })
 
 module.exports = mongoose.model('Recordset', Recordset)
